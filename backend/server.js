@@ -20,6 +20,9 @@ app.use(express.json());
 // }));
 
 // Routes
+app.get("/", (req, res) => {
+  res.send("InsightCV AI Backend is running 🚀");
+});
 const healthRoutes = require("./routes/healthRoutes");
 const authRoutes = require("./routes/authRoutes");
 const protectedRoutes = require("./routes/protectedRoutes");
