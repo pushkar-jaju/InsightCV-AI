@@ -1,0 +1,54 @@
+import { useRef, useState } from 'react'
+
+export default function UploadCard({ onFileSelect, selectedFile }) {
+  const inputRef = useRef()
+  const [dragging, setDragging] = useState(false)
+
+  const handleDrop = (e) => {
+    e.preventDefault()
+    setDragging(false)
+    const file = e.dataTransfer.files[0]
+    if (file?.type === 'application/pdf') onFileSelect(file)
+  }
+
+  return (
+    <div
+      onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
+      onDragLeave={() => setDragging(false)}
+      onDrop={handleDrop}
+      onClick={() => inputRef.current.click()}
+      className={`border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all duration-200
+        ${dragging
+          ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 scale-[1.01]'
+          : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-gray-50 dark:hover:bg-gray-700/30 bg-white dark:bg-gray-800'
+        }`}
+    >
+      <input
+        ref={inputRef} type="file" accept=".pdf"
+        className="hidden"
+        onChange={(e) => onFileSelect(e.target.files[0])}
+      />
+      <div className="flex flex-col items-center gap-3">
+        <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-colors duration-200
+          ${dragging ? 'bg-indigo-200 dark:bg-indigo-800' : 'bg-indigo-100 dark:bg-indigo-900/40'}`}>
+          <svg className={`w-7 h-7 transition-colors ${dragging ? 'text-indigo-700 dark:text-indigo-300' : 'text-indigo-600 dark:text-indigo-400'}`}
+            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+        </div>
+        {selectedFile ? (
+          <div>
+            <p className="font-semibold text-indigo-600 dark:text-indigo-400">{selectedFile.name}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Click to change file</p>
+          </div>
+        ) : (
+          <div>
+            <p className="font-semibold text-gray-700 dark:text-gray-200">Drag &amp; drop your PDF here</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">or click to browse — PDF only, max 5MB</p>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
