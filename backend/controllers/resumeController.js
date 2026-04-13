@@ -24,11 +24,16 @@ const uploadResume = async (req, res) => {
     const { originalname, filename, path: filePath, size, mimetype } = req.file;
     const userId = req.user; // set by authMiddleware
 
+    // The safe filename (handles both relative and absolute paths if user previously had them)
+    const safeFilename = path.basename(filePath);
+    const uploadDir = path.join(__dirname, "../uploads");
+    console.log(`[uploadResume] File saved successfully at: ${filePath}`);
+
     // Create resume document in MongoDB
     const resume = await Resume.create({
       userId,
       originalFileName: originalname,
-      fileUrl: filePath,
+      fileUrl: safeFilename, // Save ONLY filename to avoid absolute path bugs across deploys
       fileSize: size,
       fileType: mimetype,
       extractedText: "", // placeholder for Phase 4
@@ -109,16 +114,26 @@ const extractResumeText = async (req, res) => {
       });
     }
 
+    // Get the dynamic upload directory
+    const uploadDir = path.join(__dirname, "../uploads");
+    const filename = path.basename(resume.fileUrl);
+    const correctFilePath = path.join(uploadDir, filename);
+
+    console.log(`[extractResumeText] Requesting file read for: ${correctFilePath}`);
+
     // Verify the file still exists on disk
-    if (!fs.existsSync(resume.fileUrl)) {
+    if (!fs.existsSync(correctFilePath)) {
+      console.error(`[extractResumeText] File NOT FOUND on server at path: ${correctFilePath}`);
       return res.status(404).json({
         success: false,
         message: "Resume file not found on server. Please re-upload.",
       });
     }
 
+    console.log(`[extractResumeText] File successfully located, starting extraction...`);
+
     // Read and parse the PDF
-    const dataBuffer = fs.readFileSync(resume.fileUrl);
+    const dataBuffer = fs.readFileSync(correctFilePath);
     let data;
     try {
       data = await pdfParse(dataBuffer);
