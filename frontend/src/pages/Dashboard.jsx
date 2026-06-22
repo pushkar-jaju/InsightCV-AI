@@ -7,6 +7,42 @@ import SkeletonChart from '../components/SkeletonChart'
 import SectionHeader from '../components/SectionHeader'
 import api, { getAnalyticsSummary, getProfile } from '../services/api'
 
+// ── Helper functions for ATS Breakdown ──
+const getATSBreakdown = (report) => {
+  if (report && report.atsBreakdown && report.atsBreakdown.keywordsMatch) {
+    return report.atsBreakdown;
+  }
+  const score = report?.atsScore || 70;
+  return {
+    keywordsMatch: { score: Math.round(25 * (score / 100)), strengths: [], weaknesses: [] },
+    skillsMatch: { score: Math.round(25 * (score / 100)), strengths: [], weaknesses: [] },
+    experienceQuality: { score: Math.round(20 * (score / 100)), strengths: [], weaknesses: [] },
+    formattingStructure: { score: Math.round(15 * (score / 100)), strengths: [], weaknesses: [] },
+    educationRelevance: { score: Math.round(15 * (score / 100)), strengths: [], weaknesses: [] }
+  };
+};
+
+const renderDashboardBreakdownRow = (title, catData, max) => {
+  if (!catData) return null;
+  const percentage = (catData.score / max) * 100;
+  const barColorClass = 
+    percentage >= 80 ? 'bg-emerald-500' :
+    percentage >= 50 ? 'bg-amber-500' :
+    'bg-red-500';
+
+  return (
+    <div className="space-y-1" key={title}>
+      <div className="flex justify-between text-xs font-medium text-gray-700 dark:text-gray-300">
+        <span>{title}</span>
+        <span className="font-bold text-gray-950 dark:text-white">{catData.score}/{max}</span>
+      </div>
+      <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5">
+        <div className={`h-1.5 rounded-full ${barColorClass}`} style={{ width: `${percentage}%` }} />
+      </div>
+    </div>
+  );
+};
+
 export default function Dashboard() {
   const [resumes, setResumes]     = useState([])
   const [analytics, setAnalytics] = useState(null)
@@ -37,14 +73,65 @@ export default function Dashboard() {
           map[r._id] = result.status === 'fulfilled' ? result.value.data.report : null
         })
         setReportMap(map)
-      } catch {
-        // silently ignore — dashboard is informational
+      } catch (err) {
+        console.error('Fetch Dashboard Data Error:', err)
       } finally {
         setLoading(false)
       }
     }
     fetchData()
   }, [])
+
+  const latestResume = resumes[0];
+  const latestReport = latestResume ? reportMap[latestResume._id] : null;
+
+  const renderLatestBreakdownCard = () => {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 flex flex-col justify-between flex-1 shadow-sm">
+        <div>
+          <h3 className="font-bold text-gray-900 dark:text-white text-base mb-1 truncate" title={latestResume?.originalFileName}>
+            {latestResume ? latestResume.originalFileName.slice(0, 30) + (latestResume.originalFileName.length > 30 ? '...' : '') : 'No resume'}
+          </h3>
+          <p className="text-[11px] text-gray-400 dark:text-gray-500 mb-4">
+            {latestResume ? `Uploaded ${new Date(latestResume.createdAt).toLocaleDateString()}` : 'Upload a resume to begin'}
+          </p>
+
+          {latestReport ? (
+            <div className="space-y-3">
+              {renderDashboardBreakdownRow("Keywords Match", getATSBreakdown(latestReport).keywordsMatch, 25)}
+              {renderDashboardBreakdownRow("Skills Match", getATSBreakdown(latestReport).skillsMatch, 25)}
+              {renderDashboardBreakdownRow("Experience Quality", getATSBreakdown(latestReport).experienceQuality, 20)}
+              {renderDashboardBreakdownRow("Formatting & Structure", getATSBreakdown(latestReport).formattingStructure, 15)}
+              {renderDashboardBreakdownRow("Education Relevance", getATSBreakdown(latestReport).educationRelevance, 15)}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center text-center py-8 text-gray-400 dark:text-gray-500 space-y-2">
+              <svg className="w-10 h-10 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                {latestResume ? 'Pending Analysis' : 'No resumes yet'}
+              </p>
+              <p className="text-[10px] text-gray-500 dark:text-gray-400">
+                {latestResume ? 'Click the button below to analyze this resume' : 'Analyze your first resume to see categories'}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {latestResume && (
+          <div className="pt-4 mt-auto">
+            <Link
+              to={`/upload?resumeId=${latestResume._id}`}
+              className="w-full text-center py-2 px-3 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 text-xs font-semibold rounded-xl transition-all block shadow-sm"
+            >
+              {latestReport ? '👁 View Detailed Report' : '✨ Analyze Now'}
+            </Link>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -98,10 +185,31 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ── Score Chart ── */}
-      <div>
-        <SectionHeader title="Score Trend" subtitle="Your ATS scores over time" />
-        {loading ? <SkeletonChart /> : <ScoreChart data={analytics?.scoreHistory || []} />}
+      {/* ── Chart & Latest Breakdown Grid ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-4">
+          <SectionHeader title="Score Trend" subtitle="Your ATS scores over time" />
+          {loading ? <SkeletonChart /> : <ScoreChart data={analytics?.scoreHistory || []} />}
+        </div>
+        <div className="lg:col-span-1 space-y-4 flex flex-col">
+          <SectionHeader title="Latest Breakdown" subtitle="Detailed scoring summary" />
+          {loading ? (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 flex-grow space-y-4 animate-pulse min-h-[250px]">
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"/>
+              <div className="h-3 bg-gray-100 dark:bg-gray-700 rounded w-1/3"/>
+              <div className="space-y-3.5 pt-4">
+                {[1,2,3,4,5].map(i => (
+                  <div key={i} className="space-y-1">
+                    <div className="flex justify-between"><div className="h-2.5 bg-gray-200 dark:bg-gray-700 rounded w-1/4"/><div className="h-2.5 bg-gray-200 dark:bg-gray-700 rounded w-10"/></div>
+                    <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded w-full"/>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            renderLatestBreakdownCard()
+          )}
+        </div>
       </div>
 
       {/* ── Resume List ── */}
@@ -132,7 +240,7 @@ export default function Dashboard() {
           </div>
         ) : (
           <div className="space-y-3">
-            {resumes.map((r) => {
+            {resumes.slice(0, 5).map((r) => {
               const existingReport = reportMap[r._id]
               const hasReport = Boolean(existingReport)
               return (

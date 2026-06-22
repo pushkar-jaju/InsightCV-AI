@@ -22,6 +22,15 @@ const jobMatchSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const categoryAnalysisSchema = new mongoose.Schema(
+  {
+    score: { type: Number, default: 0 },
+    strengths: { type: [String], default: [] },
+    weaknesses: { type: [String], default: [] },
+  },
+  { _id: false }
+);
+
 const analysisReportSchema = new mongoose.Schema(
   {
     userId: {
@@ -34,6 +43,13 @@ const analysisReportSchema = new mongoose.Schema(
     },
     atsScore: {
       type: Number,
+    },
+    atsBreakdown: {
+      keywordsMatch:       { type: categoryAnalysisSchema, default: null },
+      skillsMatch:         { type: categoryAnalysisSchema, default: null },
+      experienceQuality:   { type: categoryAnalysisSchema, default: null },
+      formattingStructure: { type: categoryAnalysisSchema, default: null },
+      educationRelevance:  { type: categoryAnalysisSchema, default: null },
     },
     keywordMatchPercentage: {
       type: Number,

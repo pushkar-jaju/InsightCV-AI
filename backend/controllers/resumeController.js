@@ -226,6 +226,33 @@ You are an ATS (Applicant Tracking System) expert. Analyze the resume below and 
 
 {
   "atsScore": <number 0-100>,
+  "atsBreakdown": {
+    "keywordsMatch": {
+      "score": <number 0-25>,
+      "strengths": [<string>, ...],
+      "weaknesses": [<string>, ...]
+    },
+    "skillsMatch": {
+      "score": <number 0-25>,
+      "strengths": [<string>, ...],
+      "weaknesses": [<string>, ...]
+    },
+    "experienceQuality": {
+      "score": <number 0-20>,
+      "strengths": [<string>, ...],
+      "weaknesses": [<string>, ...]
+    },
+    "formattingStructure": {
+      "score": <number 0-15>,
+      "strengths": [<string>, ...],
+      "weaknesses": [<string>, ...]
+    },
+    "educationRelevance": {
+      "score": <number 0-15>,
+      "strengths": [<string>, ...],
+      "weaknesses": [<string>, ...]
+    }
+  },
   "missingKeywords": [<string>, ...],
   "detectedSkills": [<string>, ...],
   "skillGapAnalysis": [
@@ -240,7 +267,8 @@ You are an ATS (Applicant Tracking System) expert. Analyze the resume below and 
 Rules:
 - Return ONLY the JSON object above. No markdown. No code fences. No explanation.
 - Every field is required. Use empty arrays [] if a field has no values.
-- atsScore must be a plain number, not a string.
+- The atsScore must be the exact sum of the scores for keywordsMatch, skillsMatch, experienceQuality, formattingStructure, and educationRelevance.
+- All scores must be plain numbers, not strings.
 
 Resume:
 ${resumeText}`;
@@ -314,6 +342,7 @@ ${resumeText}`;
       userId,
       resumeId,
       atsScore: parsedData.atsScore,
+      atsBreakdown: parsedData.atsBreakdown || null,
       missingKeywords: parsedData.missingKeywords || [],
       detectedSkills: parsedData.detectedSkills || [],
       skillGapAnalysis: parsedData.skillGapAnalysis || [],
@@ -632,4 +661,255 @@ const deleteResumeReport = async (req, res) => {
   }
 };
 
-module.exports = { uploadResume, getResumes, extractResumeText, analyzeResumeWithAI, matchResumeWithJobDescription, getJobMatch, getResumeReport, deleteResumeReport };
+// ─────────────────────────────────────────
+// @desc    Get all resume history populated with reports
+// @route   GET /api/resumes/history
+// @access  Private (requires JWT)
+// ─────────────────────────────────────────
+const getResumeHistory = async (req, res) => {
+  try {
+    const userId = req.user;
+    const mongoose = require("mongoose");
+    const history = await Resume.aggregate([
+      { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+      {
+        $lookup: {
+          from: "analysisreports",
+          localField: "_id",
+          foreignField: "resumeId",
+          as: "reports"
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          originalFileName: 1,
+          fileUrl: 1,
+          fileSize: 1,
+          fileType: 1,
+          uploadDate: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          report: { $arrayElemAt: ["$reports", 0] }
+        }
+      },
+      { $sort: { createdAt: -1 } }
+    ]);
+    return res.status(200).json({ success: true, history });
+  } catch (error) {
+    console.error("Get Resume History Error:", error.message);
+    return res.status(500).json({ success: false, message: "Server error fetching resume history" });
+  }
+};
+
+// ─────────────────────────────────────────
+// @desc    Delete a resume, its uploaded file, and its analysis report
+// @route   DELETE /api/resumes/:id
+// @access  Private (requires JWT)
+// ─────────────────────────────────────────
+const deleteResume = async (req, res) => {
+  try {
+    const resumeId = req.params.id;
+    const userId = req.user;
+
+    const resume = await Resume.findById(resumeId);
+    if (!resume) {
+      return res.status(404).json({ success: false, message: "Resume not found" });
+    }
+    if (resume.userId.toString() !== userId.toString()) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    // Delete physical file from disk
+    if (resume.fileUrl) {
+      const filename = path.basename(resume.fileUrl);
+      const filePath = path.join(__dirname, "../uploads", filename);
+      if (fs.existsSync(filePath)) {
+        try {
+          fs.unlinkSync(filePath);
+        } catch (fileErr) {
+          console.error("Failed to delete physical file:", fileErr.message);
+        }
+      }
+    }
+
+    // Delete database records
+    await Resume.findByIdAndDelete(resumeId);
+    await AnalysisReport.deleteMany({ resumeId, userId });
+
+    // Decrement the user's totalResumesUploaded count
+    await User.findByIdAndUpdate(userId, {
+      $inc: { totalResumesUploaded: -1 },
+    });
+
+    return res.status(200).json({ success: true, message: "Resume history record deleted successfully" });
+  } catch (error) {
+    console.error("Delete Resume Error:", error.message);
+    return res.status(500).json({ success: false, message: "Server error deleting resume" });
+  }
+};
+
+// ─────────────────────────────────────────
+// @desc    Stream the uploaded resume file
+// @route   GET /api/resumes/:id/file
+// @access  Private (requires JWT)
+// ─────────────────────────────────────────
+const getResumeFile = async (req, res) => {
+  try {
+    const resumeId = req.params.id;
+    const userId = req.user;
+
+    const resume = await Resume.findById(resumeId);
+    if (!resume) {
+      return res.status(404).json({ success: false, message: "Resume not found" });
+    }
+    if (resume.userId.toString() !== userId.toString()) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    const filename = path.basename(resume.fileUrl);
+    const filePath = path.join(__dirname, "../uploads", filename);
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ success: false, message: "Resume file not found on server" });
+    }
+
+    res.setHeader("Content-Type", resume.fileType || "application/pdf");
+    res.setHeader("Content-Disposition", `inline; filename="${encodeURIComponent(resume.originalFileName)}"`);
+    return res.sendFile(filePath);
+  } catch (error) {
+    console.error("Get Resume File Error:", error.message);
+    return res.status(500).json({ success: false, message: "Server error loading resume file" });
+  }
+};
+
+// ─────────────────────────────────────────
+// @desc    Compare two resume versions using AI
+// @route   POST /api/resumes/compare
+// @access  Private (requires JWT)
+// ─────────────────────────────────────────
+const compareResumes = async (req, res) => {
+  try {
+    const { resumeId1, resumeId2 } = req.body;
+    const userId = req.user;
+
+    if (!resumeId1 || !resumeId2) {
+      return res.status(400).json({ success: false, message: "Both resumeId1 and resumeId2 are required" });
+    }
+
+    // Verify ownership and fetch details
+    const [resume1, resume2] = await Promise.all([
+      Resume.findById(resumeId1),
+      Resume.findById(resumeId2)
+    ]);
+
+    if (!resume1 || !resume2) {
+      return res.status(404).json({ success: false, message: "One or both resumes not found" });
+    }
+
+    if (resume1.userId.toString() !== userId.toString() || resume2.userId.toString() !== userId.toString()) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    const [report1, report2] = await Promise.all([
+      AnalysisReport.findOne({ resumeId: resumeId1, userId }),
+      AnalysisReport.findOne({ resumeId: resumeId2, userId })
+    ]);
+
+    if (!report1 || !report2) {
+      return res.status(400).json({ success: false, message: "Analysis reports not found. Please analyze both resumes first." });
+    }
+
+    // AI comparison prompt
+    const prompt = `You MUST return ONLY valid JSON. Do NOT add explanations. Do NOT add text before or after the JSON. If you cannot comply, return an empty JSON object {}.
+
+You are an expert ATS (Applicant Tracking System) reviewer. Compare the two resume analysis reports below. Report 1 is the original version (V1), and Report 2 is the updated version (V2).
+
+Report 1:
+${JSON.stringify(report1)}
+
+Report 2:
+${JSON.stringify(report2)}
+
+Based on these two reports, analyze the improvements and return ONLY a single valid JSON object in exactly this format:
+{
+  "summary": <string, a concise AI-generated summary of the key improvements made, around 3 sentences>,
+  "addedSkills": [<string>, ...],
+  "removedSkills": [<string>, ...],
+  "keywordImprovements": [<string>, ...],
+  "experienceImprovements": [<string>, ...]
+}
+
+Rules:
+- Return ONLY the JSON object above. No markdown. No code fences. No explanation.
+- addedSkills should list skills present in Report 2 but not in Report 1.
+- removedSkills should list skills present in Report 1 but not in Report 2.
+- keywordImprovements should describe what keywords or terminology got improved.
+- experienceImprovements should describe how experience descriptions or impact statements got improved.
+- summary should be a professional summary of the comparison.
+`;
+
+    let parsedData = {
+      summary: "Comparison complete. Resumes analyzed side-by-side.",
+      addedSkills: [],
+      removedSkills: [],
+      keywordImprovements: [],
+      experienceImprovements: []
+    };
+
+    try {
+      const aiText = await generateAIContent(prompt);
+      let cleanText = aiText.replace(/```json/gi, "").replace(/```/g, "").trim();
+      const jsonMatch = cleanText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        parsedData = JSON.parse(jsonMatch[0]);
+      }
+    } catch (aiErr) {
+      console.error("Comparison AI Error:", aiErr.message);
+    }
+
+    return res.status(200).json({
+      success: true,
+      comparison: {
+        resume1: {
+          id: resume1._id,
+          name: resume1.originalFileName,
+          uploadDate: resume1.uploadDate,
+          atsScore: report1.atsScore,
+          report: report1
+        },
+        resume2: {
+          id: resume2._id,
+          name: resume2.originalFileName,
+          uploadDate: resume2.uploadDate,
+          atsScore: report2.atsScore,
+          report: report2
+        },
+        scoreDifference: (report2.atsScore || 0) - (report1.atsScore || 0),
+        addedSkills: parsedData.addedSkills || [],
+        removedSkills: parsedData.removedSkills || [],
+        keywordImprovements: parsedData.keywordImprovements || [],
+        experienceImprovements: parsedData.experienceImprovements || [],
+        summary: parsedData.summary || ""
+      }
+    });
+  } catch (error) {
+    console.error("Compare Resumes Error:", error.message);
+    return res.status(500).json({ success: false, message: "Server error during comparison" });
+  }
+};
+
+module.exports = {
+  uploadResume,
+  getResumes,
+  extractResumeText,
+  analyzeResumeWithAI,
+  matchResumeWithJobDescription,
+  getJobMatch,
+  getResumeReport,
+  deleteResumeReport,
+  getResumeHistory,
+  deleteResume,
+  getResumeFile,
+  compareResumes
+};

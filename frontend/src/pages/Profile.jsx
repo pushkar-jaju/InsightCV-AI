@@ -5,6 +5,7 @@ import Loader from '../components/Loader'
 import Card from '../components/Card'
 import Button from '../components/Button'
 import { getProfile, getAnalyticsSummary } from '../services/api'
+import LogoutModal from '../components/LogoutModal'
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -12,6 +13,7 @@ export default function Profile() {
   const [totalResumes, setTotalResumes] = useState(null)
   const [loading, setLoading]         = useState(true)
   const [error, setError]             = useState('')
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +33,7 @@ export default function Profile() {
     fetchData()
   }, [])
 
-  const handleLogout = () => {
+  const handleLogoutConfirm = () => {
     localStorage.removeItem('token')
     toast.success('Logged out successfully')
     setTimeout(() => navigate('/login'), 600)
@@ -92,7 +94,7 @@ export default function Profile() {
             </div>
           </Card>
 
-          <Button variant="danger" size="lg" className="w-full" onClick={handleLogout}>
+          <Button variant="danger" size="lg" className="w-full" onClick={() => setShowLogoutModal(true)}>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -101,6 +103,11 @@ export default function Profile() {
           </Button>
         </div>
       )}
+      <LogoutModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={handleLogoutConfirm}
+      />
     </div>
   )
 }

@@ -3,6 +3,8 @@ import { useTheme } from '../contexts/ThemeContext'
 const PAGE_TITLES = {
   '/dashboard': 'Dashboard',
   '/upload': 'Upload Resume',
+  '/history': 'Resume History',
+  '/compare': 'Resume Comparison',
   '/job-match': 'Job Match',
   '/profile': 'Profile',
 }

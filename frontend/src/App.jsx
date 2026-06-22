@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard'
 import UploadResume from './pages/UploadResume'
 import JobMatch from './pages/JobMatch'
 import Profile from './pages/Profile'
+import History from './pages/History'
+import CompareResumes from './pages/CompareResumes'
 
 // Guard: redirect to /login if JWT not present, wrap in Layout
 function PrivateRoute({ children }) {
@@ -41,6 +43,8 @@ export default function App() {
           {/* Private — wrapped in Layout */}
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/upload"    element={<PrivateRoute><UploadResume /></PrivateRoute>} />
+          <Route path="/history"   element={<PrivateRoute><History /></PrivateRoute>} />
+          <Route path="/compare"   element={<PrivateRoute><CompareResumes /></PrivateRoute>} />
           <Route path="/job-match" element={<PrivateRoute><JobMatch /></PrivateRoute>} />
           <Route path="/profile"   element={<PrivateRoute><Profile /></PrivateRoute>} />
 

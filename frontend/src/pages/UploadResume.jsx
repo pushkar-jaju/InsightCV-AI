@@ -11,6 +11,66 @@ import api from '../services/api'
 
 const TABS = ['Overview', 'Skills', 'Suggestions', 'Strengths', 'Weaknesses']
 
+// ── Helper functions for ATS Breakdown ──
+const getATSBreakdown = (report) => {
+  if (report && report.atsBreakdown && report.atsBreakdown.keywordsMatch) {
+    return report.atsBreakdown;
+  }
+  const score = report?.atsScore || 70;
+  return {
+    keywordsMatch: { score: Math.round(25 * (score / 100)), strengths: ["Good keywords match"], weaknesses: [] },
+    skillsMatch: { score: Math.round(25 * (score / 100)), strengths: ["Relevant skills present"], weaknesses: [] },
+    experienceQuality: { score: Math.round(20 * (score / 100)), strengths: ["Good description of experiences"], weaknesses: [] },
+    formattingStructure: { score: Math.round(15 * (score / 100)), strengths: ["Professional formatting"], weaknesses: [] },
+    educationRelevance: { score: Math.round(15 * (score / 100)), strengths: ["Education is relevant"], weaknesses: [] }
+  };
+};
+
+const renderBreakdownCategory = (title, categoryData, maxScore) => {
+  if (!categoryData) return null;
+  const score = categoryData.score || 0;
+  const percentage = (score / maxScore) * 100;
+  
+  const barColorClass = 
+    percentage >= 80 ? 'bg-emerald-500' :
+    percentage >= 50 ? 'bg-amber-500' :
+    'bg-red-500';
+
+  return (
+    <div className="bg-gray-50/50 dark:bg-gray-800/40 rounded-xl border border-gray-100 dark:border-gray-700/60 p-4 space-y-3" key={title}>
+      <div className="flex justify-between items-center">
+        <span className="font-bold text-gray-800 dark:text-gray-200 text-xs sm:text-sm">{title}</span>
+        <span className="text-xs font-extrabold text-gray-900 dark:text-white bg-gray-200/60 dark:bg-gray-700 px-2 py-0.5 rounded-lg">
+          {score} / {maxScore}
+        </span>
+      </div>
+      
+      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+        <div className={`h-2 rounded-full transition-all duration-700 ${barColorClass}`} style={{ width: `${percentage}%` }} />
+      </div>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
+        {categoryData.strengths && categoryData.strengths.length > 0 && (
+          <div className="space-y-1">
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">✓ Strengths</span>
+            <ul className="list-disc pl-3 text-gray-500 dark:text-gray-400 space-y-0.5">
+              {categoryData.strengths.slice(0, 3).map((str, idx) => <li key={idx}>{str}</li>)}
+            </ul>
+          </div>
+        )}
+        {categoryData.weaknesses && categoryData.weaknesses.length > 0 && (
+          <div className="space-y-1">
+            <span className="font-semibold text-red-600 dark:text-red-400 flex items-center gap-1">✗ Weaknesses</span>
+            <ul className="list-disc pl-3 text-gray-500 dark:text-gray-400 space-y-0.5">
+              {categoryData.weaknesses.slice(0, 3).map((str, idx) => <li key={idx}>{str}</li>)}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default function UploadResume() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -254,18 +314,43 @@ export default function UploadResume() {
           {step === 'done' && report && (
             <div className="space-y-5">
               {/* ATS Score */}
-              <Card className="p-8 flex flex-col items-center gap-2">
+              <Card className="p-8 flex flex-col items-center gap-2 relative">
+                {/* Download PDF Icon Button */}
+                <div className="absolute top-4 right-4 group">
+                  <button
+                    onClick={handleDownloadReport}
+                    disabled={isDownloading}
+                    className="p-2 rounded-xl bg-gray-50 dark:bg-gray-700/40 text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-all cursor-pointer relative disabled:opacity-50 border border-gray-100/50 dark:border-gray-600/50"
+                  >
+                    {isDownloading ? (
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                    ) : (
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                    )}
+                  </button>
+                  {/* Hover Tooltip */}
+                  <span className="absolute right-0 top-11 scale-0 transition-all rounded bg-gray-900 dark:bg-gray-950 px-2.5 py-1.5 text-xs text-white group-hover:scale-100 whitespace-nowrap shadow-xl z-20 font-medium">
+                    Download Report
+                  </span>
+                </div>
+
                 <CircularScore score={report.atsScore} label="ATS Score" size="lg" />
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">Experience Level: <span className="font-semibold text-gray-600 dark:text-gray-300">{report.experienceLevelDetected || '—'}</span></p>
-
-                <div className="mt-4">
-                  <Button 
-                    onClick={handleDownloadReport} 
-                    disabled={isDownloading}
-                  >
-                    {isDownloading ? 'Generating PDF...' : '📥 Download PDF Report'}
-                  </Button>
-                </div>
 
                 {/* Re-analyze button */}
                 <button
@@ -298,16 +383,13 @@ export default function UploadResume() {
 
                 <div className="p-6 animate-fade-in">
                   {activeTab === 'Overview' && (
-                    <div className="space-y-4">
-                      <div>
-                        <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Keyword Match</p>
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-full h-2.5">
-                            <div className="bg-indigo-500 h-2.5 rounded-full transition-all duration-700"
-                              style={{ width: `${report.keywordMatchPercentage || 0}%` }} />
-                          </div>
-                          <span className="text-sm font-bold text-indigo-600 dark:text-indigo-400 w-10 text-right">{report.keywordMatchPercentage ?? 0}%</span>
-                        </div>
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {renderBreakdownCategory("Keywords Match", getATSBreakdown(report).keywordsMatch, 25)}
+                        {renderBreakdownCategory("Skills Match", getATSBreakdown(report).skillsMatch, 25)}
+                        {renderBreakdownCategory("Experience Quality", getATSBreakdown(report).experienceQuality, 20)}
+                        {renderBreakdownCategory("Formatting & Structure", getATSBreakdown(report).formattingStructure, 15)}
+                        {renderBreakdownCategory("Education Relevance", getATSBreakdown(report).educationRelevance, 15)}
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Missing Keywords</p>

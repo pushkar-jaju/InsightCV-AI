@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import LogoutModal from './LogoutModal'
 
 const NAV_ITEMS = [
   {
@@ -15,6 +17,14 @@ const NAV_ITEMS = [
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+    ),
+  },
+  {
+    to: '/history',
+    label: 'Resume History',
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
     ),
   },
   {
@@ -38,8 +48,9 @@ const NAV_ITEMS = [
 export default function Sidebar({ open, onClose }) {
   const location = useLocation()
   const navigate = useNavigate()
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
-  const handleLogout = () => {
+  const handleLogoutConfirm = () => {
     localStorage.removeItem('token')
     navigate('/login')
   }
@@ -86,7 +97,7 @@ export default function Sidebar({ open, onClose }) {
       {/* Logout */}
       <div className="px-3 pb-5 border-t border-gray-100 dark:border-gray-700 pt-3">
         <button
-          onClick={handleLogout}
+          onClick={() => setShowLogoutModal(true)}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,6 +137,11 @@ export default function Sidebar({ open, onClose }) {
           </aside>
         </div>
       )}
+      <LogoutModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={handleLogoutConfirm}
+      />
     </>
   )
 }

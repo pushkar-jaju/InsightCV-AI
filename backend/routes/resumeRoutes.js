@@ -2,13 +2,38 @@ const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const upload = require("../config/multerConfig");
-const { uploadResume, extractResumeText, analyzeResumeWithAI, matchResumeWithJobDescription, getJobMatch, getResumes, getResumeReport, deleteResumeReport } = require("../controllers/resumeController");
+const {
+  uploadResume,
+  extractResumeText,
+  analyzeResumeWithAI,
+  matchResumeWithJobDescription,
+  getJobMatch,
+  getResumes,
+  getResumeReport,
+  deleteResumeReport,
+  getResumeHistory,
+  deleteResume,
+  getResumeFile,
+  compareResumes
+} = require("../controllers/resumeController");
 
 // ─────────────────────────────────────────
 // GET /api/resumes
 // Protected: JWT required
 // ─────────────────────────────────────────
 router.get("/", authMiddleware, getResumes);
+
+// ─────────────────────────────────────────
+// GET /api/resumes/history
+// Protected: JWT required
+// ─────────────────────────────────────────
+router.get("/history", authMiddleware, getResumeHistory);
+
+// ─────────────────────────────────────────
+// POST /api/resumes/compare
+// Protected: JWT required
+// ─────────────────────────────────────────
+router.post("/compare", authMiddleware, compareResumes);
 
 // ─────────────────────────────────────────
 // POST /api/resumes/upload
@@ -68,6 +93,13 @@ router.post("/:id/match-job", authMiddleware, matchResumeWithJobDescription);
 router.get("/:id/job-match", authMiddleware, getJobMatch);
 
 // ─────────────────────────────────────────
+// GET /api/resumes/:id/file
+// Protected: JWT required
+// Serves/streams the original PDF/DOCX file
+// ─────────────────────────────────────────
+router.get("/:id/file", authMiddleware, getResumeFile);
+
+// ─────────────────────────────────────────
 // GET /api/resumes/:id/report
 // Protected: JWT required
 // Returns saved ATS analysis report
@@ -80,5 +112,12 @@ router.get("/:id/report", authMiddleware, getResumeReport);
 // Deletes saved report (enables re-analysis)
 // ─────────────────────────────────────────
 router.delete("/:id/report", authMiddleware, deleteResumeReport);
+
+// ─────────────────────────────────────────
+// DELETE /api/resumes/:id
+// Protected: JWT required
+// Deletes resume, file, and report permanently
+// ─────────────────────────────────────────
+router.delete("/:id", authMiddleware, deleteResume);
 
 module.exports = router;
