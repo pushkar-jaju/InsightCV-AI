@@ -21,12 +21,23 @@ if (!fs.existsSync(uploadDir)) {
 console.log(`Upload directory is ready at: ${uploadDir}`);
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+const allowedOrigins = [
+  "https://insight-cv-ai.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:3001"
+];
+
 app.use(cors({
-  origin: "https://insight-cv-ai.vercel.app",
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
+app.use(express.json());
 
 // Routes
 app.get("/", (req, res) => {
