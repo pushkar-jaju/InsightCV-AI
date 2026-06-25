@@ -185,7 +185,44 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* ── AI Insights ── */}
+      {!loading && analytics?.aiInsights && analytics.aiInsights.length > 0 && (
+        <div className="space-y-4">
+          <SectionHeader title="AI Insights" subtitle="Real-time feedback & recommended actions" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {analytics.aiInsights.map((insight, idx) => {
+              const cardStyles = 
+                insight.type === 'success' ? { bg: 'bg-emerald-50/20 dark:bg-emerald-950/10', border: 'border-emerald-100 dark:border-emerald-900/30', text: 'text-emerald-600 dark:text-emerald-400', val: 'text-emerald-900 dark:text-emerald-250' } :
+                insight.type === 'warning' ? { bg: 'bg-amber-50/20 dark:bg-amber-950/10', border: 'border-amber-100 dark:border-amber-900/30', text: 'text-amber-600 dark:text-amber-400', val: 'text-amber-900 dark:text-amber-250' } :
+                insight.type === 'danger' ? { bg: 'bg-red-50/20 dark:bg-red-950/10', border: 'border-red-100 dark:border-red-900/30', text: 'text-red-600 dark:text-red-400', val: 'text-red-900 dark:text-red-250' } :
+                insight.type === 'primary' ? { bg: 'bg-indigo-50/20 dark:bg-indigo-950/10', border: 'border-indigo-100 dark:border-indigo-900/30', text: 'text-indigo-600 dark:text-indigo-450', val: 'text-indigo-900 dark:text-indigo-250' } :
+                { bg: 'bg-blue-50/20 dark:bg-blue-950/10', border: 'border-blue-100 dark:border-blue-900/30', text: 'text-blue-600 dark:text-blue-405', val: 'text-blue-900 dark:text-blue-250' };
+
+              return (
+                <div
+                  key={idx}
+                  className={`p-5 rounded-2xl border ${cardStyles.bg} ${cardStyles.border} flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-200`}
+                >
+                  <div className="space-y-1.5">
+                    <p className={`text-[10px] font-extrabold uppercase tracking-wider ${cardStyles.text}`}>
+                      {insight.title}
+                    </p>
+                    <p className={`text-2xl font-black tracking-tight ${cardStyles.val}`}>
+                      {insight.value}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 leading-normal">
+                      {insight.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* ── Chart & Latest Breakdown Grid ── */}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-4">
           <SectionHeader title="Score Trend" subtitle="Your ATS scores over time" />

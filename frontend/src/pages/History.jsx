@@ -5,6 +5,7 @@ import Loader from '../components/Loader'
 import Card from '../components/Card'
 import Button from '../components/Button'
 import api from '../services/api'
+import Dropdown from '../components/Dropdown'
 
 export default function History() {
   const navigate = useNavigate()
@@ -188,18 +189,25 @@ export default function History() {
 
         <div className="flex items-center gap-2 w-full md:w-auto">
           <span className="text-xs font-medium text-gray-400 dark:text-gray-500 whitespace-nowrap">Sort by</span>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="w-full md:w-44 px-3 py-2 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
-          >
-            <option value="date-desc">Newest Upload</option>
-            <option value="date-asc">Oldest Upload</option>
-            <option value="name-asc">Name (A-Z)</option>
-            <option value="name-desc">Name (Z-A)</option>
-            <option value="score-desc">ATS Score (High-Low)</option>
-            <option value="score-asc">ATS Score (Low-High)</option>
-          </select>
+          <div className="w-full md:w-48">
+            <Dropdown
+              value={sortBy}
+              onChange={(val) => setSortBy(val)}
+              options={[
+                { value: 'date-desc', label: 'Newest Upload' },
+                { value: 'date-asc', label: 'Oldest Upload' },
+                { value: 'name-asc', label: 'Name (A-Z)' },
+                { value: 'name-desc', label: 'Name (Z-A)' },
+                { value: 'score-desc', label: 'ATS Score (High-Low)' },
+                { value: 'score-asc', label: 'ATS Score (Low-High)' }
+              ]}
+              icon={
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                </svg>
+              }
+            />
+          </div>
         </div>
       </Card>
 

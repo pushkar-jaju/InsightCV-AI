@@ -7,6 +7,7 @@ import Loader from '../components/Loader'
 import Card from '../components/Card'
 import Button from '../components/Button'
 import api from '../services/api'
+import Dropdown from '../components/Dropdown'
 
 // ─── Status constants ───────────────────────────────────────────────────────
 const STATUS = {
@@ -30,20 +31,8 @@ export default function JobMatch() {
   const [fetchingResumes, setFetchingResumes] = useState(true)
   const [checkingCache, setCheckingCache]     = useState(false)
   const [error, setError]           = useState('')
-  const [dropdownOpen, setDropdownOpen] = useState(false)
   const [isDownloading, setIsDownloading] = useState(false)
-  const dropdownRef = useRef(null)
 
-  // ─── Close dropdown on outside click ───────────────────────────────────────
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false)
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
 
   // ─── 1. Load all resumes on mount ──────────────────────────────────────────
   useEffect(() => {
@@ -212,72 +201,16 @@ export default function JobMatch() {
           <Card className="p-6 space-y-5">
             {/* ── Resume selector ── */}
             {resumes.length > 0 ? (
-              <div className="relative" ref={dropdownRef}>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                  Select Resume
-                </label>
-                <button
-                  type="button"
-                  disabled={isAnalyzing || checkingCache}
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="w-full flex items-center justify-between px-2 py-1 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all disabled:opacity-60 shadow-sm hover:border-gray-300 dark:hover:border-gray-500"
-                >
-                  <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="p-1.5 bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-lg flex-shrink-0">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    </div>
-                    <span className="font-medium truncate">
-                      {resumes.find(r => r._id === selectedResumeId)?.originalFileName || 'Select a resume'}
-                    </span>
-                  </div>
-                  <svg className={`w-5 h-5 text-gray-400 transition-transform duration-200 flex-shrink-0 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-
-                <AnimatePresence>
-                  {dropdownOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10, scale: 0.98 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                      transition={{ duration: 0.15, ease: "easeOut" }}
-                      className="absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl shadow-xl overflow-hidden"
-                    >
-                      <div className="max-h-60 overflow-y-auto w-full p-1.5 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-700 custom-scrollbar">
-                        {resumes.map((r) => {
-                          const isSelected = r._id === selectedResumeId;
-                          return (
-                            <button
-                              key={r._id}
-                              type="button"
-                              onClick={() => {
-                                setSelectedResumeId(r._id)
-                                setDropdownOpen(false)
-                              }}
-                              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-colors ${isSelected ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 font-medium' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50'}`}
-                            >
-                              <div className="flex items-center gap-3 w-full pr-4">
-                                <svg className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-indigo-500 dark:text-indigo-400' : 'text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                <span className="truncate flex-1 text-left">{r.originalFileName}</span>
-                                {isSelected && (
-                                  <svg className="w-4 h-4 text-indigo-600 dark:text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                  </svg>
-                                )}
-                              </div>
-                            </button>
-                          )
-                        })}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              <Dropdown
+                label="Select Resume"
+                value={selectedResumeId}
+                disabled={isAnalyzing || checkingCache}
+                onChange={(val) => setSelectedResumeId(val)}
+                options={resumes.map(r => ({
+                  value: r._id,
+                  label: r.originalFileName
+                }))}
+              />
             ) : (
               <div className="text-center py-6">
                 <p className="text-gray-400 dark:text-gray-500 text-sm mb-3">No resumes found.</p>

@@ -534,7 +534,7 @@ ${jobDescription.trim()}`;
     let report = await AnalysisReport.findOneAndUpdate(
       { resumeId, userId },
       { $set: { jobMatchAnalysis: jobMatchPayload } },
-      { new: true, sort: { createdAt: -1 } }
+      { returnDocument: 'after', sort: { createdAt: -1 } }
     );
 
     if (!report) {

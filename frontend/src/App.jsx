@@ -10,6 +10,9 @@ import JobMatch from './pages/JobMatch'
 import Profile from './pages/Profile'
 import History from './pages/History'
 import CompareResumes from './pages/CompareResumes'
+import ResumeRewriter from './pages/ResumeRewriter'
+import InterviewPrep from './pages/InterviewPrep'
+import CareerCoach from './pages/CareerCoach'
 
 // Guard: redirect to /login if JWT not present, wrap in Layout
 function PrivateRoute({ children }) {
@@ -47,6 +50,9 @@ export default function App() {
           <Route path="/compare"   element={<PrivateRoute><CompareResumes /></PrivateRoute>} />
           <Route path="/job-match" element={<PrivateRoute><JobMatch /></PrivateRoute>} />
           <Route path="/profile"   element={<PrivateRoute><Profile /></PrivateRoute>} />
+          <Route path="/rewrite"   element={<PrivateRoute><ResumeRewriter /></PrivateRoute>} />
+          <Route path="/interview-prep" element={<PrivateRoute><InterviewPrep /></PrivateRoute>} />
+          <Route path="/career-coach"   element={<PrivateRoute><CareerCoach /></PrivateRoute>} />
 
           {/* Redirects */}
           <Route path="/"  element={<Navigate to="/dashboard" replace />} />
@@ -56,3 +62,4 @@ export default function App() {
     </ThemeProvider>
   )
 }
+

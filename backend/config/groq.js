@@ -42,4 +42,36 @@ const generateAIContent = async (prompt) => {
   return content.trim();
 };
 
-module.exports = { generateAIContent };
+// ─────────────────────────────────────────
+// generateAIChatResponse(messages)
+// Sends chat history to Groq for conversational replies.
+// ─────────────────────────────────────────
+const generateAIChatResponse = async (messages) => {
+  const response = await axios.post(
+    GROQ_API_URL,
+    {
+      model: "openai/gpt-oss-120b",
+      messages: messages,
+      max_tokens: 2048,
+      temperature: 0.7,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      timeout: 60000,
+    }
+  );
+
+  const content = response.data?.choices?.[0]?.message?.content;
+
+  if (!content) {
+    throw new Error("Unexpected response format from Groq API");
+  }
+
+  return content.trim();
+};
+
+module.exports = { generateAIContent, generateAIChatResponse };
+

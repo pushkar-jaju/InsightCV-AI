@@ -108,3 +108,26 @@ export default api
 // ─── Named helpers ──────────────────────────────
 export const getAnalyticsSummary = () => api.get('/analytics/summary')
 export const getProfile          = () => api.get('/auth/me')
+
+// ─── AI Resume Rewriter ─────────────────────────
+export const generateRewrite = (resumeId) => api.post('/rewrites/generate', { resumeId })
+export const getRewriteHistory = (resumeId) => api.get(`/rewrites/history/${resumeId}`)
+export const saveRewriteAsVersion = (resumeId, sections) => api.post('/rewrites/save-version', { resumeId, sections })
+
+// ─── AI Interview Preparation ───────────────────
+export const generateInterviewQuestions = (resumeId, difficulty, forceReGenerate = false) => 
+  api.post('/interviews/generate', { resumeId, difficulty, forceReGenerate })
+export const getInterviewPrepByResume = (resumeId) => api.get(`/interviews/resume/${resumeId}`)
+
+// ─── AI Career Coach ────────────────────────────
+export const generateCareerGuidance = (resumeId, careerGoal, force = false) => 
+  api.post('/career/guidance', { resumeId, careerGoal, force })
+export const getCareerGuidanceByResume = (resumeId) => api.get(`/career/guidance/${resumeId}`)
+
+// ─── AI Chat Assistant ──────────────────────────
+export const getChatSessions = () => api.get('/chats/sessions')
+export const createChatSession = (title, resumeId = null) => api.post('/chats/sessions', { title, resumeId })
+export const getChatMessages = (sessionId) => api.get(`/chats/sessions/${sessionId}/messages`)
+export const sendMessage = (sessionId, text) => api.post(`/chats/sessions/${sessionId}/messages`, { text })
+export const deleteChatSession = (sessionId) => api.delete(`/chats/sessions/${sessionId}`)
+

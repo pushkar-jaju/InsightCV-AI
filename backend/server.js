@@ -49,6 +49,10 @@ const protectedRoutes = require("./routes/protectedRoutes");
 const resumeRoutes = require("./routes/resumeRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const reportRoutes = require("./routes/reportRoutes");
+const rewriteRoutes = require("./routes/rewriteRoutes");
+const interviewRoutes = require("./routes/interviewRoutes");
+const careerRoutes = require("./routes/careerRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
@@ -56,6 +60,11 @@ app.use("/api/protected", protectedRoutes);
 app.use("/api/resumes", resumeRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/rewrites", rewriteRoutes);
+app.use("/api/interviews", interviewRoutes);
+app.use("/api/career", careerRoutes);
+app.use("/api/chats", chatRoutes);
+
 
 // Start server
 const PORT = process.env.PORT || 5000;
