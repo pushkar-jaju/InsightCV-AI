@@ -251,8 +251,8 @@ export default function CareerCoach() {
   return (
     <div className="space-y-6 animate-fade-in pb-16">
       <div>
-        <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">AI Career Coach & chat</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">
+        <h1 className="text-2xl font-semibold text-ink ">AI Career Coach & chat</h1>
+        <p className="text-muted  mt-1 text-sm">
           Get structural roadmap reviews, readiness metrics, skill gap maps, and chat dynamically about placement prep.
         </p>
       </div>
@@ -262,8 +262,8 @@ export default function CareerCoach() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
           <div className="space-y-1">
             {resumes.length === 0 ? (
-              <p className="text-sm text-gray-500">
-                No resumes uploaded. <Link to="/upload" className="text-indigo-650 font-semibold hover:underline">Upload here</Link>
+              <p className="text-sm text-muted">
+                No resumes uploaded. <Link to="/upload" className="text-primary font-semibold hover:underline">Upload here</Link>
               </p>
             ) : (
               <Dropdown
@@ -279,7 +279,7 @@ export default function CareerCoach() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+            <label className="text-xs font-semibold text-muted-soft  uppercase tracking-wider">
               Target Career Goal
             </label>
             <input
@@ -287,14 +287,15 @@ export default function CareerCoach() {
               placeholder="e.g. Java Backend Developer, Data Scientist..."
               value={careerGoal}
               onChange={(e) => setCareerGoal(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-1"
+              className="w-full px-4 py-2 bg-canvas  border border-hairline  rounded-md text-ink  text-sm focus:outline-none focus:border-primary focus:ring-1"
             />
           </div>
 
           <Button
             onClick={() => handleGenerateGuidance(false)}
             disabled={resumes.length === 0 || loadingGuidance}
-            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl py-2.5 font-semibold shadow-md flex items-center justify-center gap-2"
+            variant="primary"
+            className="w-full flex items-center justify-center gap-2"
           >
             {loadingGuidance ? (
               <>
@@ -312,9 +313,9 @@ export default function CareerCoach() {
       </Card>
 
       {/* Suggested Quick Prompts */}
-      <div className="flex flex-wrap items-center gap-2.5 p-3.5 rounded-2xl bg-white dark:bg-gray-800/80 border border-gray-150 dark:border-gray-700/60 shadow-sm">
-        <span className="text-xs font-black text-gray-500 dark:text-gray-400 uppercase tracking-wider select-none pl-1 flex items-center gap-1.5">
-          <svg className="w-3.5 h-3.5 text-indigo-550 dark:text-indigo-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="flex flex-wrap items-center gap-2.5 p-3.5 rounded-lg bg-surface border border-hairline">
+        <span className="text-xs font-black text-muted  uppercase tracking-wider select-none pl-1 flex items-center gap-1.5">
+          <svg className="w-3.5 h-3.5 text-primary  animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
           </svg>
           Suggested prompts:
@@ -323,7 +324,7 @@ export default function CareerCoach() {
           <button
             key={q}
             onClick={() => handleSuggestedClick(q)}
-            className="px-4 py-1.5 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/45 dark:hover:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800/80 text-xs font-bold rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="px-4 py-1.5 bg-surface border border-hairline hover:border-primary text-ink text-xs font-bold rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             {q}
           </button>
@@ -331,7 +332,7 @@ export default function CareerCoach() {
       </div>
 
       {loadingGuidance && (
-        <div className="p-12 text-center bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-750 shadow-sm flex flex-col items-center justify-center space-y-4">
+        <div className="p-12 text-center bg-surface  rounded-lg border border-hairline-soft   flex flex-col items-center justify-center space-y-4">
           <Loader message="Career coach is mapping target curriculum steps, readiness percentages, and cert list recommendations..." />
         </div>
       )}
@@ -341,26 +342,27 @@ export default function CareerCoach() {
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 items-start">
           {/* Chat Threads Sidebar */}
           <div className="xl:col-span-1 space-y-4">
-            <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
-              <h3 className="font-extrabold text-gray-800 dark:text-white text-xs uppercase tracking-widest">Conversations</h3>
+            <div className="flex items-center justify-between border-b border-hairline  pb-2">
+              <h3 className="font-semibold text-ink  text-xs uppercase tracking-widest">Conversations</h3>
             </div>
             
-            <button
+            <Button
               onClick={() => handleCreateSession('Coaching Session')}
-              className="w-full bg-indigo-50 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 border border-indigo-100 dark:border-indigo-900/35 hover:border-indigo-200 dark:hover:border-indigo-800 text-indigo-750 dark:text-indigo-300 font-extrabold text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-sm active:scale-[0.98]"
+              variant="primary"
+              className="w-full text-xs py-2.5 h-10"
               title="Start new chat"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
               </svg>
               <span>New Conversation</span>
-            </button>
+            </Button>
             
             <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1 scrollbar-thin">
               {sessionsLoading && sessions.length === 0 ? (
-                <div className="text-center py-4 text-xs text-gray-400">Loading chat logs...</div>
+                <div className="text-center py-4 text-xs text-muted-soft">Loading chat logs...</div>
               ) : sessions.length === 0 ? (
-                <div className="text-center py-8 text-xs text-gray-400 italic">No conversations logged. Click button to begin.</div>
+                <div className="text-center py-8 text-xs text-muted-soft italic">No conversations logged. Click button to begin.</div>
               ) : (
                 sessions.map((s) => {
                   const isActive = activeSessionId === s._id
@@ -371,26 +373,26 @@ export default function CareerCoach() {
                         handleSelectSession(s._id)
                         setActiveTab('chat')
                       }}
-                      className={`flex items-start justify-between p-3.5 rounded-xl cursor-pointer transition-all border group
+                      className={`flex items-start justify-between p-3.5 rounded-md cursor-pointer transition-all border group
                         ${isActive
-                          ? 'bg-indigo-50/60 dark:bg-indigo-950/30 border-indigo-400 text-indigo-700 dark:text-indigo-300 shadow-sm'
-                          : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700/50 text-gray-700 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-750/50 hover:border-gray-200 dark:hover:border-gray-650'
+                          ? 'bg-primary/10 border-primary text-primary'
+                          : 'bg-surface border-hairline-soft text-body-text hover:bg-canvas/80 hover:border-hairline'
                         }`}
                     >
                       <div className="space-y-1 min-w-0 flex-1">
                         <div className="flex items-center justify-between">
-                          <p className="font-extrabold text-xs truncate leading-tight pr-2">{s.title}</p>
-                          <span className="text-[8px] text-gray-400 dark:text-gray-550 whitespace-nowrap flex-shrink-0">
+                          <p className="font-semibold text-xs truncate leading-tight pr-2">{s.title}</p>
+                          <span className="text-[8px] text-muted-soft  whitespace-nowrap flex-shrink-0">
                             {new Date(s.updatedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                           </span>
                         </div>
-                        <p className="text-[10px] text-gray-400 dark:text-gray-500 truncate leading-normal">
+                        <p className="text-[10px] text-muted-soft  truncate leading-normal">
                           {sessionPreviews[s._id] || 'No messages yet...'}
                         </p>
                       </div>
                       <button
                         onClick={(e) => handleDeleteSession(e, s._id)}
-                        className="p-1 rounded text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="p-1 rounded text-muted-soft hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
                         title="Delete chat session"
                       >
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -407,53 +409,53 @@ export default function CareerCoach() {
           {/* Guidance Analysis Panel */}
           <div className="xl:col-span-3 space-y-6">
             {/* Tabs selector */}
-            <div className="flex border-b border-gray-200 dark:border-gray-700 overflow-x-auto scrollbar-none gap-2">
+            <div className="flex border-b border-hairline  overflow-x-auto scrollbar-none gap-2">
               <button
                 onClick={() => setActiveTab('roadmap')}
-                className={`py-2.5 px-4 text-xs font-extrabold border-b-2 whitespace-nowrap uppercase tracking-wider transition-colors
+                className={`py-2.5 px-4 text-xs font-semibold border-b-2 whitespace-nowrap uppercase tracking-wider transition-colors
                   ${activeTab === 'roadmap'
-                    ? 'border-indigo-600 text-indigo-650 dark:text-indigo-400 dark:border-indigo-400'
-                    : 'border-transparent text-gray-400 hover:text-gray-750'
+                    ? 'border-primary text-primary  '
+                    : 'border-transparent text-muted-soft hover:text-gray-750'
                   }`}
               >
                 Roadmap
               </button>
               <button
                 onClick={() => setActiveTab('skillgap')}
-                className={`py-2.5 px-4 text-xs font-extrabold border-b-2 whitespace-nowrap uppercase tracking-wider transition-colors
+                className={`py-2.5 px-4 text-xs font-semibold border-b-2 whitespace-nowrap uppercase tracking-wider transition-colors
                   ${activeTab === 'skillgap'
-                    ? 'border-indigo-600 text-indigo-650 dark:text-indigo-400 dark:border-indigo-400'
-                    : 'border-transparent text-gray-400 hover:text-gray-750'
+                    ? 'border-primary text-primary  '
+                    : 'border-transparent text-muted-soft hover:text-gray-750'
                   }`}
               >
                 Skill Gap
               </button>
               <button
                 onClick={() => setActiveTab('readiness')}
-                className={`py-2.5 px-4 text-xs font-extrabold border-b-2 whitespace-nowrap uppercase tracking-wider transition-colors
+                className={`py-2.5 px-4 text-xs font-semibold border-b-2 whitespace-nowrap uppercase tracking-wider transition-colors
                   ${activeTab === 'readiness'
-                    ? 'border-indigo-600 text-indigo-650 dark:text-indigo-400 dark:border-indigo-400'
-                    : 'border-transparent text-gray-400 hover:text-gray-750'
+                    ? 'border-primary text-primary  '
+                    : 'border-transparent text-muted-soft hover:text-gray-750'
                   }`}
               >
                 Readiness Score
               </button>
               <button
                 onClick={() => setActiveTab('learning')}
-                className={`py-2.5 px-4 text-xs font-extrabold border-b-2 whitespace-nowrap uppercase tracking-wider transition-colors
+                className={`py-2.5 px-4 text-xs font-semibold border-b-2 whitespace-nowrap uppercase tracking-wider transition-colors
                   ${activeTab === 'learning'
-                    ? 'border-indigo-600 text-indigo-650 dark:text-indigo-400 dark:border-indigo-400'
-                    : 'border-transparent text-gray-400 hover:text-gray-750'
+                    ? 'border-primary text-primary  '
+                    : 'border-transparent text-muted-soft hover:text-gray-750'
                   }`}
               >
                 Recommendations
               </button>
               <button
                 onClick={() => setActiveTab('chat')}
-                className={`py-2.5 px-4 text-xs font-extrabold border-b-2 whitespace-nowrap uppercase tracking-wider transition-colors
+                className={`py-2.5 px-4 text-xs font-semibold border-b-2 whitespace-nowrap uppercase tracking-wider transition-colors
                   ${activeTab === 'chat'
-                    ? 'border-indigo-600 text-indigo-650 dark:text-indigo-400 dark:border-indigo-400'
-                    : 'border-transparent text-gray-400 hover:text-gray-750'
+                    ? 'border-primary text-primary  '
+                    : 'border-transparent text-muted-soft hover:text-gray-750'
                   }`}
               >
                 AI Coach Chat
@@ -461,7 +463,7 @@ export default function CareerCoach() {
             </div>
 
             {/* TAB CONTENTS */}
-            <div className={`bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm min-h-[350px] ${activeTab === 'chat' ? 'p-4 sm:p-5' : 'p-6'}`}>
+            <div className={`bg-surface  rounded-lg border border-hairline-soft   min-h-[350px] ${activeTab === 'chat' ? 'p-4 sm:p-5' : 'p-6'}`}>
               <AnimatePresence mode="wait">
                 {/* 1. ROADMAP TAB */}
                 {activeTab === 'roadmap' && (
@@ -473,12 +475,12 @@ export default function CareerCoach() {
                     className="space-y-6"
                   >
                     <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white text-base">Personalized Learning Node Roadmap</h4>
-                      <p className="text-gray-400 text-xs mt-0.5">Sequential milestones to achieve your backend goal of: {careerGoal}</p>
+                      <h4 className="font-bold text-ink  text-base">Personalized Learning Node Roadmap</h4>
+                      <p className="text-muted-soft text-xs mt-0.5">Sequential milestones to achieve your backend goal of: {careerGoal}</p>
                     </div>
 
                     {!guidanceData ? (
-                      <div className="text-center py-12 text-gray-400 dark:text-gray-500 italic text-sm bg-gray-50/50 dark:bg-gray-900/20 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+                      <div className="text-center py-12 text-muted-soft  italic text-sm bg-canvas/50  rounded-lg border border-dashed border-hairline ">
                         No roadmap loaded. Click 'Generate Career Plan' above.
                       </div>
                     ) : (
@@ -497,12 +499,12 @@ export default function CareerCoach() {
                     className="space-y-6"
                   >
                     <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white text-base">Skill Gap Mapping</h4>
-                      <p className="text-gray-400 text-xs mt-0.5">Compare skills detected on your resume against critical gaps required.</p>
+                      <h4 className="font-bold text-ink  text-base">Skill Gap Mapping</h4>
+                      <p className="text-muted-soft text-xs mt-0.5">Compare skills detected on your resume against critical gaps required.</p>
                     </div>
 
                     {!guidanceData ? (
-                      <div className="text-center py-12 text-gray-400 dark:text-gray-500 italic text-sm bg-gray-50/50 dark:bg-gray-900/20 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+                      <div className="text-center py-12 text-muted-soft  italic text-sm bg-canvas/50  rounded-lg border border-dashed border-hairline ">
                         No skill gap mapped. Click 'Generate Career Plan' above.
                       </div>
                     ) : (
@@ -521,12 +523,12 @@ export default function CareerCoach() {
                     className="space-y-6"
                   >
                     <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white text-base">Placement Readiness Score</h4>
-                      <p className="text-gray-400 text-xs mt-0.5">Calculated overall placement readiness scores mapped across categories.</p>
+                      <h4 className="font-bold text-ink  text-base">Placement Readiness Score</h4>
+                      <p className="text-muted-soft text-xs mt-0.5">Calculated overall placement readiness scores mapped across categories.</p>
                     </div>
 
                     {!guidanceData ? (
-                      <div className="text-center py-12 text-gray-400 dark:text-gray-500 italic text-sm bg-gray-50/50 dark:bg-gray-900/20 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+                      <div className="text-center py-12 text-muted-soft  italic text-sm bg-canvas/50  rounded-lg border border-dashed border-hairline ">
                         No readiness score evaluated. Click 'Generate Plan'.
                       </div>
                     ) : (
@@ -550,12 +552,12 @@ export default function CareerCoach() {
                     className="space-y-6"
                   >
                     <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white text-base">Learning Recommendations</h4>
-                      <p className="text-gray-400 text-xs mt-0.5">Recommendations for technologies, projects, certs, and practice areas.</p>
+                      <h4 className="font-bold text-ink  text-base">Learning Recommendations</h4>
+                      <p className="text-muted-soft text-xs mt-0.5">Recommendations for technologies, projects, certs, and practice areas.</p>
                     </div>
 
                     {!guidanceData ? (
-                      <div className="text-center py-12 text-gray-400 dark:text-gray-500 italic text-sm bg-gray-50/50 dark:bg-gray-900/20 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+                      <div className="text-center py-12 text-muted-soft  italic text-sm bg-canvas/50  rounded-lg border border-dashed border-hairline ">
                         No recommendations compiled. Click 'Generate Career Plan'.
                       </div>
                     ) : (
@@ -579,12 +581,12 @@ export default function CareerCoach() {
                     className="flex flex-col h-[600px] max-w-3xl mx-auto w-full"
                   >
                     {/* Chat Header */}
-                    <div className="border-b border-gray-200 dark:border-gray-700 pb-3 flex justify-between items-center flex-shrink-0">
+                    <div className="border-b border-hairline  pb-3 flex justify-between items-center flex-shrink-0">
                       <div className="flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-                        <h4 className="font-bold text-gray-900 dark:text-white text-base">AI Career Coach</h4>
+                        <h4 className="font-bold text-ink  text-base">AI Career Coach</h4>
                       </div>
-                      <span className="text-[12px] text-indigo-650 bg-indigo-50 dark:bg-indigo-950/40 dark:text-indigo-300 px-2.5 py-0.5 rounded font-extrabold">
+                      <span className="text-[12px] text-primary bg-primary/10 px-2.5 py-0.5 rounded font-semibold">
                         Active Resume Context Attached
                       </span>
                     </div>
@@ -595,15 +597,15 @@ export default function CareerCoach() {
                         <div className="flex flex-col items-center justify-center h-full text-center py-10 px-6 space-y-6">
                           {/* Modern Vector Style SVG */}
                           <div className="relative">
-                            <div className="absolute inset-0 bg-indigo-500/10 dark:bg-indigo-400/5 blur-2xl rounded-full scale-120 animate-pulse" />
-                            <svg className="w-20 h-20 text-indigo-650 dark:text-indigo-400 relative z-10 animate-fade-in" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="absolute inset-0 bg-primary/10  blur-2xl rounded-full scale-120 animate-pulse" />
+                            <svg className="w-20 h-20 text-primary  relative z-10 animate-fade-in" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.25} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                             </svg>
                           </div>
                           
                           <div className="space-y-2">
-                            <h3 className="text-lg font-extrabold text-gray-900 dark:text-white tracking-tight">Your AI Career Coach</h3>
-                            <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm max-w-sm leading-relaxed">
+                            <h3 className="text-lg font-semibold text-ink  tracking-tight">Your AI Career Coach</h3>
+                            <p className="text-muted  text-xs sm:text-sm max-w-sm leading-relaxed">
                               Analyze placement readiness, identify skill gaps, generate roadmap milestones, and chat dynamically about career guidance.
                             </p>
                           </div>
@@ -612,34 +614,34 @@ export default function CareerCoach() {
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg w-full pt-2">
                             <button
                               onClick={() => handleSendMessage("Improve My Resume")}
-                              className="p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-800 text-left hover:scale-[1.01] active:scale-98 transition-all hover:shadow-md hover:shadow-indigo-500/5 group"
+                              className="p-4 rounded-lg bg-surface  border border-hairline  hover:border-primary  text-left hover:scale-[1.01] active:scale-98 transition-all hover: hover:-500/5 group"
                             >
-                              <p className="font-extrabold text-xs text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">Improve My Resume</p>
-                              <p className="text-[13px] text-gray-500 dark:text-gray-400 mt-1 leading-normal">Identify resume keyword gaps, ATS compliance issues, and general styling adjustments.</p>
+                              <p className="font-semibold text-xs text-primary  group-hover:text-primary :text-primary">Improve My Resume</p>
+                              <p className="text-[13px] text-muted  mt-1 leading-normal">Identify resume keyword gaps, ATS compliance issues, and general styling adjustments.</p>
                             </button>
 
                             <button
                               onClick={() => handleSendMessage("Prepare Me For Java Interviews")}
-                              className="p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-800 text-left hover:scale-[1.01] active:scale-98 transition-all hover:shadow-md hover:shadow-indigo-500/5 group"
+                              className="p-4 rounded-lg bg-surface  border border-hairline  hover:border-primary  text-left hover:scale-[1.01] active:scale-98 transition-all hover: hover:-500/5 group"
                             >
-                              <p className="font-extrabold text-xs text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">Prepare Me For Java Interviews</p>
-                              <p className="text-[13px] text-gray-500 dark:text-gray-400 mt-1 leading-normal">Get simulated mock interview questions, DSA focus areas, and code snippets.</p>
+                              <p className="font-semibold text-xs text-primary  group-hover:text-primary :text-primary">Prepare Me For Java Interviews</p>
+                              <p className="text-[13px] text-muted  mt-1 leading-normal">Get simulated mock interview questions, DSA focus areas, and code snippets.</p>
                             </button>
 
                             <button
                               onClick={() => handleSendMessage("Suggest MCA Projects")}
-                              className="p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-800 text-left hover:scale-[1.01] active:scale-98 transition-all hover:shadow-md hover:shadow-indigo-500/5 group"
+                              className="p-4 rounded-lg bg-surface  border border-hairline  hover:border-primary  text-left hover:scale-[1.01] active:scale-98 transition-all hover: hover:-500/5 group"
                             >
-                              <p className="font-extrabold text-xs text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">Suggest MCA Projects</p>
-                              <p className="text-[13px] text-gray-500 dark:text-gray-400 mt-1 leading-normal">Explore full stack web application architectures and relevant database technologies.</p>
+                              <p className="font-semibold text-xs text-primary  group-hover:text-primary :text-primary">Suggest MCA Projects</p>
+                              <p className="text-[13px] text-muted  mt-1 leading-normal">Explore full stack web application architectures and relevant database technologies.</p>
                             </button>
 
                             <button
                               onClick={() => handleSendMessage("How Can I Get Placed At Amazon?")}
-                              className="p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-800 text-left hover:scale-[1.01] active:scale-98 transition-all hover:shadow-md hover:shadow-indigo-500/5 group"
+                              className="p-4 rounded-lg bg-surface  border border-hairline  hover:border-primary  text-left hover:scale-[1.01] active:scale-98 transition-all hover: hover:-500/5 group"
                             >
-                              <p className="font-extrabold text-xs text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">How Can I Get Placed At Amazon?</p>
-                              <p className="text-[13px] text-gray-500 dark:text-gray-400 mt-1 leading-normal">Discover hiring timelines, online assessment patterns, and core principles.</p>
+                              <p className="font-semibold text-xs text-primary  group-hover:text-primary :text-primary">How Can I Get Placed At Amazon?</p>
+                              <p className="text-[13px] text-muted  mt-1 leading-normal">Discover hiring timelines, online assessment patterns, and core principles.</p>
                             </button>
                           </div>
                         </div>
@@ -651,7 +653,7 @@ export default function CareerCoach() {
                           <div key={m._id} className={`flex gap-3.5 items-start ${isUser ? 'justify-end' : 'justify-start'} animate-fade-in`}>
                             {!isUser && (
                               /* AI Avatar */
-                              <div className="w-8 h-8 rounded-xl bg-gray-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center flex-shrink-0 shadow-sm border border-gray-200 dark:border-gray-700 mt-1">
+                              <div className="w-8 h-8 rounded-md bg-canvas-soft  text-primary  flex items-center justify-center flex-shrink-0  border border-hairline  mt-1">
                                 <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
@@ -660,10 +662,10 @@ export default function CareerCoach() {
 
                             <div className={`flex flex-col max-w-[80%] md:max-w-[75%] ${isUser ? 'items-end' : 'items-start'}`}>
                               <div
-                                className={`rounded-2xl px-4 py-2.5 text-[15px] shadow-sm leading-relaxed transition-all
+                                className={`rounded-lg px-4 py-2.5 text-[15px]  leading-relaxed transition-all
                                   ${isUser
-                                    ? 'bg-indigo-600 dark:bg-indigo-600 text-white shadow-indigo-500/10'
-                                    : 'bg-gray-50/90 dark:bg-gray-800/40 text-gray-900 dark:text-gray-200 border border-gray-200 dark:border-gray-700/80 shadow-sm'
+                                    ? 'bg-primary  text-white -500/10'
+                                    : 'bg-canvas/90  text-ink  border border-hairline  '
                                   }`}
                               >
                                 {isUser ? (
@@ -674,14 +676,14 @@ export default function CareerCoach() {
                               </div>
                               
                               {/* Timestamp */}
-                              <span className="text-[12px] text-gray-400 dark:text-gray-500 mt-1 px-1">
+                              <span className="text-[12px] text-muted-soft  mt-1 px-1">
                                 {new Date(m.createdAt || m.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </span>
                             </div>
 
                             {isUser && (
                               /* User Avatar */
-                              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center font-bold text-[11px] flex-shrink-0 shadow-sm shadow-indigo-500/15 mt-1">
+                              <div className="w-8 h-8 rounded-md bg-ink text-canvas flex items-center justify-center font-bold text-[11px] flex-shrink-0 mt-1">
                                 ME
                               </div>
                             )}
@@ -692,15 +694,15 @@ export default function CareerCoach() {
                       {/* Typing indicator */}
                       {sendingMsg && (
                         <div className="flex gap-3.5 items-start justify-start animate-fade-in">
-                          <div className="w-8 h-8 rounded-xl bg-gray-100 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center flex-shrink-0 shadow-sm border border-gray-200 dark:border-gray-700 mt-1 animate-pulse">
+                          <div className="w-8 h-8 rounded-md bg-canvas-soft  text-primary  flex items-center justify-center flex-shrink-0  border border-hairline  mt-1 animate-pulse">
                             <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                           </div>
-                          <div className="bg-gray-50/90 dark:bg-gray-800/40 rounded-2xl px-4 py-3 border border-gray-200 dark:border-gray-700/80 flex items-center gap-1.5 shadow-sm">
-                            <span className="w-1.5 h-1.5 bg-indigo-500 dark:bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                            <span className="w-1.5 h-1.5 bg-indigo-500 dark:bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                            <span className="w-1.5 h-1.5 bg-indigo-500 dark:bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                          <div className="bg-canvas/90  rounded-lg px-4 py-3 border border-hairline  flex items-center gap-1.5 ">
+                            <span className="w-1.5 h-1.5 bg-primary  rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                            <span className="w-1.5 h-1.5 bg-primary  rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                            <span className="w-1.5 h-1.5 bg-primary  rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                           </div>
                         </div>
                       )}
@@ -713,7 +715,7 @@ export default function CareerCoach() {
                         e.preventDefault()
                         handleSendMessage()
                       }}
-                      className="border-t border-gray-200 dark:border-gray-700/80 pt-4 flex gap-2 flex-shrink-0"
+                      className="border-t border-hairline  pt-4 flex gap-2 flex-shrink-0"
                     >
                       <div className="relative flex-1">
                         <input
@@ -722,12 +724,12 @@ export default function CareerCoach() {
                           value={inputText}
                           onChange={(e) => setInputText(e.target.value)}
                           disabled={sendingMsg}
-                          className="w-full pl-4 pr-12 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-[15px] text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all disabled:opacity-70"
+                          className="w-full pl-4 pr-12 py-3 bg-canvas  border border-hairline  rounded-md text-[15px] text-ink  placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all disabled:opacity-70"
                         />
                         <button
                           type="submit"
                           disabled={!inputText.trim() || sendingMsg}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-200 dark:disabled:bg-gray-800 text-white disabled:text-gray-400 rounded-lg transition-all shadow-sm"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary hover:bg-primary disabled:bg-surface-strong dark:disabled:bg-gray-800 text-white disabled:text-muted-soft rounded-lg transition-all "
                           title="Send message"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -746,3 +748,4 @@ export default function CareerCoach() {
     </div>
   )
 }
+

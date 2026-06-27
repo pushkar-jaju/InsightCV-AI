@@ -30,7 +30,7 @@ function parseInlineFormatting(text) {
       const closing = text.indexOf('**', boldIndex + 2)
       if (closing !== -1) {
         tokens.push(
-          <strong key={`bold-${boldIndex}`} className="font-bold text-gray-905 dark:text-white">
+          <strong key={`bold-${boldIndex}`} className="font-bold text-ink">
             {text.substring(boldIndex + 2, closing)}
           </strong>
         )
@@ -43,7 +43,7 @@ function parseInlineFormatting(text) {
       const closing = text.indexOf('*', italicIndex + 1)
       if (closing !== -1) {
         tokens.push(
-          <em key={`italic-${italicIndex}`} className="italic text-gray-800 dark:text-gray-200">
+          <em key={`italic-${italicIndex}`} className="italic text-ink">
             {text.substring(italicIndex + 1, closing)}
           </em>
         )
@@ -56,7 +56,7 @@ function parseInlineFormatting(text) {
       const closing = text.indexOf('`', codeIndex + 1)
       if (closing !== -1) {
         tokens.push(
-          <code key={`code-${codeIndex}`} className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-900 font-mono text-[13px] text-indigo-600 dark:text-indigo-400 border border-gray-200 dark:border-gray-800">
+          <code key={`code-${codeIndex}`} className="px-1.5 py-0.5 rounded bg-canvas-soft font-mono text-[13px] text-primary border border-hairline">
             {text.substring(codeIndex + 1, closing)}
           </code>
         )
@@ -78,7 +78,7 @@ function parseInlineFormatting(text) {
               href={linkUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-indigo-650 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-semibold underline decoration-2 underline-offset-2 transition-colors"
+              className="text-primary hover:text-primary   font-semibold underline decoration-2 underline-offset-2 transition-colors"
             >
               {linkText}
             </a>
@@ -142,7 +142,7 @@ function parseMarkdownText(text) {
     if (listType === 'bullet') {
       listType = null
       return (
-        <ul key={listKey} className="list-disc pl-5 space-y-1 my-1.5 text-gray-800 dark:text-gray-200">
+        <ul key={listKey} className="list-disc pl-5 space-y-1 my-1.5 text-ink">
           {items.map((item, idx) => (
             <li key={idx} className="pl-0.5 leading-relaxed text-[15px]">{parseInlineFormatting(item)}</li>
           ))}
@@ -151,7 +151,7 @@ function parseMarkdownText(text) {
     } else if (listType === 'number') {
       listType = null
       return (
-        <ol key={listKey} className="list-decimal pl-5 space-y-1 my-1.5 text-gray-800 dark:text-gray-200">
+        <ol key={listKey} className="list-decimal pl-5 space-y-1 my-1.5 text-ink">
           {items.map((item, idx) => (
             <li key={idx} className="pl-0.5 leading-relaxed text-[15px]">{parseInlineFormatting(item)}</li>
           ))}
@@ -196,8 +196,8 @@ function parseMarkdownText(text) {
                 const mainVal = row[0] || ''
                 const details = row.slice(1)
                 return (
-                  <div key={rowIdx} className="bg-gray-50/50 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-800/85 p-3.5 rounded-xl shadow-xs space-y-1.5 text-left animate-fade-in">
-                    <div className="font-bold text-gray-905 dark:text-white text-[15px] border-b border-gray-200/50 dark:border-gray-800/60 pb-1">
+                  <div key={rowIdx} className="bg-canvas/50  border border-hairline  p-3.5 rounded-md  space-y-1.5 text-left animate-fade-in">
+                    <div className="font-bold text-gray-905  text-[15px] border-b border-hairline  pb-1">
                       {parseInlineFormatting(mainVal)}
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 pt-0.5">
@@ -205,8 +205,8 @@ function parseMarkdownText(text) {
                         const headerName = headers[colIdx + 1] || `Col ${colIdx + 2}`
                         return (
                           <div key={colIdx} className="text-[13px] flex items-baseline gap-1.5">
-                            <span className="text-gray-400 dark:text-gray-500 font-semibold">{headerName}:</span>
-                            <span className="text-gray-800 dark:text-gray-200">{parseInlineFormatting(val)}</span>
+                            <span className="text-muted-soft font-semibold">{headerName}:</span>
+                            <span className="text-ink">{parseInlineFormatting(val)}</span>
                           </div>
                         )
                       })}
@@ -219,16 +219,16 @@ function parseMarkdownText(text) {
         } else if (headers.length === 2) {
           // Render 2 columns as a clean definition list card
           elements.push(
-            <div key={tableKey} className="space-y-2.5 my-3 p-3.5 bg-gray-50/30 dark:bg-gray-900/20 border border-gray-200/40 dark:border-gray-800/40 rounded-xl animate-fade-in">
+            <div key={tableKey} className="space-y-2.5 my-3 p-3.5 bg-canvas/30  border border-hairline  rounded-md animate-fade-in">
               {rows.map((row, rowIdx) => {
                 const key = row[0] || ''
                 const val = row[1] || ''
                 return (
-                  <div key={rowIdx} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 py-1.5 border-b border-gray-200/30 dark:border-gray-800/20 last:border-b-0 text-[15px]">
-                    <span className="font-bold text-gray-950 dark:text-white sm:min-w-[140px] shrink-0 text-left">
+                  <div key={rowIdx} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 py-1.5 border-b border-hairline  last:border-b-0 text-[15px]">
+                    <span className="font-bold text-gray-950  sm:min-w-[140px] shrink-0 text-left">
                       {parseInlineFormatting(key)}
                     </span>
-                    <span className="text-gray-850 dark:text-gray-300 text-left">
+                    <span className="text-gray-850  text-left">
                       {parseInlineFormatting(val)}
                     </span>
                   </div>
@@ -239,7 +239,7 @@ function parseMarkdownText(text) {
         } else {
           // 1 column: bullet items
           elements.push(
-            <ul key={tableKey} className="list-disc pl-5 space-y-1 my-2 text-gray-800 dark:text-gray-200">
+            <ul key={tableKey} className="list-disc pl-5 space-y-1 my-2 text-ink">
               {rows.map((row, rowIdx) => (
                 <li key={rowIdx} className="pl-0.5 leading-relaxed text-[15px]">
                   {parseInlineFormatting(row[0] || '')}
@@ -256,7 +256,7 @@ function parseMarkdownText(text) {
     if (/^[-*_]{3,}$/.test(trimmedLine)) {
       elements.push(flushList(i))
       elements.push(
-        <hr key={i} className="border-gray-200 dark:border-gray-800 my-3" />
+        <hr key={i} className="border-hairline  my-3" />
       )
       i++
       continue
@@ -266,7 +266,7 @@ function parseMarkdownText(text) {
     if (trimmedLine.startsWith('# ')) {
       elements.push(flushList(i))
       elements.push(
-        <h1 key={i} className="text-[17px] font-bold text-gray-900 dark:text-white mt-4 mb-2 tracking-tight">
+        <h1 key={i} className="text-[17px] font-bold text-ink  mt-4 mb-2 tracking-tight">
           {parseInlineFormatting(trimmedLine.substring(2))}
         </h1>
       )
@@ -278,7 +278,7 @@ function parseMarkdownText(text) {
     if (trimmedLine.startsWith('## ')) {
       elements.push(flushList(i))
       elements.push(
-        <h2 key={i} className="text-[16px] font-bold text-gray-900 dark:text-white mt-3.5 mb-1.5 tracking-tight border-b border-gray-200 dark:border-gray-700/50 pb-0.5">
+        <h2 key={i} className="text-[16px] font-bold text-ink  mt-3.5 mb-1.5 tracking-tight border-b border-hairline  pb-0.5">
           {parseInlineFormatting(trimmedLine.substring(3))}
         </h2>
       )
@@ -290,7 +290,7 @@ function parseMarkdownText(text) {
     if (trimmedLine.startsWith('### ')) {
       elements.push(flushList(i))
       elements.push(
-        <h3 key={i} className="text-[15px] font-bold text-gray-900 dark:text-white mt-3 mb-1">
+        <h3 key={i} className="text-[15px] font-bold text-ink  mt-3 mb-1">
           {parseInlineFormatting(trimmedLine.substring(4))}
         </h3>
       )
@@ -324,7 +324,7 @@ function parseMarkdownText(text) {
     if (trimmedLine.startsWith('>')) {
       elements.push(flushList(i))
       elements.push(
-        <div key={i} className="p-3 my-2.5 border-l-4 border-indigo-500 bg-gray-50/50 dark:bg-gray-900/40 rounded-r-lg text-[15px] italic text-gray-700 dark:text-gray-300">
+        <div key={i} className="p-3 my-2.5 border-l-4 border-primary/30 bg-canvas/50 rounded-r-lg text-[15px] italic text-body">
           {parseInlineFormatting(trimmedLine.replace(/^>\s*/, ''))}
         </div>
       )
@@ -338,7 +338,7 @@ function parseMarkdownText(text) {
         listItems.push(trimmedLine)
       } else {
         elements.push(
-          <p key={i} className="text-gray-800 dark:text-gray-200 text-[15px] leading-relaxed my-1.5">
+          <p key={i} className="text-ink  text-[15px] leading-relaxed my-1.5">
             {parseInlineFormatting(trimmedLine)}
           </p>
         )
@@ -357,8 +357,9 @@ export default function ChatMessageFormatter({ text }) {
   if (!text) return null
 
   return (
-    <div className="space-y-1.5 text-[15px] leading-relaxed text-gray-800 dark:text-gray-200 text-left">
+    <div className="space-y-1.5 text-[15px] leading-relaxed text-ink  text-left">
       {parseMarkdownText(text)}
     </div>
   )
 }
+

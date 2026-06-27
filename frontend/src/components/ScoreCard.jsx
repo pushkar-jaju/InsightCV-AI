@@ -1,30 +1,39 @@
-export default function ScoreCard({ score, label, color = 'indigo' }) {
+export default function ScoreCard({ score, label, color = 'success' }) {
   const colorMap = {
-    indigo: { ring: 'stroke-indigo-500', bg: 'bg-indigo-50', text: 'text-indigo-600' },
-    emerald: { ring: 'stroke-emerald-500', bg: 'bg-emerald-50', text: 'text-emerald-600' },
-    amber: { ring: 'stroke-amber-500', bg: 'bg-amber-50', text: 'text-amber-600' },
+    indigo:  '#f54e00', // map to primary orange
+    success: '#1f8a65',
+    emerald: '#1f8a65',
+    amber:   '#c08532',
+    error:   '#cf2d56',
   }
-  const c = colorMap[color] || colorMap.indigo
+  const strokeColor = colorMap[color] || '#f54e00'
   const radius = 54
   const circumference = 2 * Math.PI * radius
   const progress = ((score || 0) / 100) * circumference
 
   return (
-    <div className={`flex flex-col items-center gap-3 p-6 rounded-2xl ${c.bg}`}>
+    <div
+      className="flex flex-col items-center gap-3 p-6 rounded-lg"
+      style={{ backgroundColor: 'var(--color-canvas-soft)', border: '1px solid var(--color-hairline)' }}
+    >
       <svg width="140" height="140" className="-rotate-90">
-        <circle cx="70" cy="70" r={radius} fill="none" className="stroke-gray-200" strokeWidth="10" />
+        <circle cx="70" cy="70" r={radius} fill="none"
+          stroke="var(--color-hairline)" strokeWidth="10" />
         <circle
           cx="70" cy="70" r={radius} fill="none"
-          className={`${c.ring} transition-all duration-700`}
+          stroke={strokeColor}
           strokeWidth="10"
           strokeDasharray={circumference}
           strokeDashoffset={circumference - progress}
           strokeLinecap="round"
+          style={{ transition: 'stroke-dashoffset 0.7s ease' }}
         />
       </svg>
       <div className="text-center -mt-4">
-        <p className={`text-4xl font-bold ${c.text}`}>{score ?? '—'}</p>
-        <p className="text-sm text-gray-500 font-medium mt-1">{label}</p>
+        <p className="text-3xl font-semibold" style={{ color: 'var(--color-ink)' }}>
+          {score ?? '—'}
+        </p>
+        <p className="text-sm mt-1" style={{ color: 'var(--color-muted)' }}>{label}</p>
       </div>
     </div>
   )

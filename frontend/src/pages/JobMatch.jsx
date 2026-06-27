@@ -151,18 +151,24 @@ export default function JobMatch() {
       {/* ── Back button ── */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors"
+        className="flex items-center gap-1.5 text-sm font-medium transition-colors"
+        style={{ color: 'var(--color-muted)' }}
+        onMouseEnter={e => { e.currentTarget.style.color = 'var(--color-ink)' }}
+        onMouseLeave={e => { e.currentTarget.style.color = 'var(--color-muted)' }}
       >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
         </svg>
         Back
       </button>
 
       {/* ── Page header ── */}
       <div>
-        <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Job Match Analysis</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">
+        <h1 className="font-normal"
+          style={{ color: 'var(--color-ink)', fontSize: '26px', lineHeight: '1.25', letterSpacing: '-0.325px' }}>
+          Job Match Analysis
+        </h1>
+        <p className="mt-1 text-sm" style={{ color: 'var(--color-muted)' }}>
           Compare your resume against any job description with AI
         </p>
       </div>
@@ -173,26 +179,26 @@ export default function JobMatch() {
         <>
           {/* ── Error banner ── */}
           {error && (
-            <div className="p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 rounded-xl text-sm">
+            <div className="p-3 rounded-md text-sm"
+              style={{ backgroundColor: 'rgba(207,45,86,0.08)', border: '1px solid rgba(207,45,86,0.2)', color: 'var(--color-error)' }}>
               {error}
             </div>
           )}
 
           {/* ── Saved match banner ── */}
           {hasSavedMatch && (
-            <div className="flex items-center justify-between p-4 bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-700 rounded-xl">
+            <div className="flex items-center justify-between p-4 rounded-lg"
+              style={{ backgroundColor: 'rgba(31,138,101,0.08)', border: '1px solid rgba(31,138,101,0.2)' }}>
               <div className="flex items-center gap-2.5">
-                <span className="text-emerald-600 dark:text-emerald-400 text-lg">✅</span>
-                <div>
-                  <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">
-                    Saved match loaded instantly
-                  </p>
+                <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: 'rgba(31,138,101,0.15)' }}>
+                  <svg className="w-3 h-3" fill="#1f8a65" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
                 </div>
+                <p className="text-sm font-medium" style={{ color: '#1f8a65' }}>Saved match loaded instantly</p>
               </div>
-              <button
-                onClick={handleNewAnalysis}
-                className="text-xs text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-200 font-medium underline transition-colors"
-              >
+              <button onClick={handleNewAnalysis} className="text-xs font-medium underline transition-colors" style={{ color: '#1f8a65' }}>
                 New analysis
               </button>
             </div>
@@ -213,7 +219,7 @@ export default function JobMatch() {
               />
             ) : (
               <div className="text-center py-6">
-                <p className="text-gray-400 dark:text-gray-500 text-sm mb-3">No resumes found.</p>
+                <p className="text-sm mb-3" style={{ color: 'var(--color-muted)' }}>No resumes found.</p>
                 <Button variant="secondary" size="sm" onClick={() => navigate('/upload')}>
                   Upload a resume first →
                 </Button>
@@ -222,9 +228,9 @@ export default function JobMatch() {
 
             {/* ── Job description textarea ── */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+              <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--color-ink)' }}>
                 Job Description
-                <span className="text-gray-400 font-normal ml-1">(paste the full job posting)</span>
+                <span className="font-normal ml-1" style={{ color: 'var(--color-muted)' }}>(paste the full job posting)</span>
               </label>
               <textarea
                 rows={8}
@@ -232,14 +238,15 @@ export default function JobMatch() {
                 onChange={(e) => setJobDescription(e.target.value)}
                 disabled={isAnalyzing || checkingCache || hasSavedMatch}
                 placeholder="Paste the job description here…"
-                className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm resize-none bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-colors disabled:opacity-60"
+                className="textarea-field disabled:opacity-60"
               />
             </div>
 
             {/* ── Action buttons ── */}
             {checkingCache ? (
-              <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                <div className="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
+              <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-muted)' }}>
+                <div className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin"
+                  style={{ borderColor: 'var(--color-primary)', borderTopColor: 'transparent' }} />
                 Checking for saved analysis…
               </div>
             ) : hasSavedMatch ? (
@@ -296,13 +303,16 @@ export default function JobMatch() {
           {result && !isAnalyzing && (
             <div id="match-results" className="animate-fade-in">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 gap-3">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Match Results</h2>
-                <Button 
-                  onClick={handleDownloadReport} 
+                <h2 className="font-normal"
+                  style={{ color: 'var(--color-ink)', fontSize: '22px', lineHeight: '1.3', letterSpacing: '-0.11px' }}>
+                  Match Results
+                </h2>
+                <Button
+                  onClick={handleDownloadReport}
                   disabled={isDownloading}
                   size="sm"
                 >
-                  {isDownloading ? 'Generating PDF...' : '📥 Download PDF'}
+                  {isDownloading ? 'Generating PDF...' : 'Download PDF'}
                 </Button>
               </div>
               <MatchResult data={result} />

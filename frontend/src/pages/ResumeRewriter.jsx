@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -157,8 +157,8 @@ ${sections.education || ""}
   return (
     <div className="space-y-6 animate-fade-in pb-16">
       <div>
-        <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">AI Resume Rewriter</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">
+        <h1 className="text-2xl font-semibold text-ink ">AI Resume Rewriter</h1>
+        <p className="text-muted  mt-1 text-sm">
           Optimize, upgrade, and rewrite specific sections of your resume to make it ATS-friendly and professional
         </p>
       </div>
@@ -168,8 +168,8 @@ ${sections.education || ""}
         <div className="flex flex-col sm:flex-row sm:items-end gap-4">
           <div className="flex-1 space-y-1">
             {resumes.length === 0 ? (
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                No resumes uploaded yet. <Link to="/upload" className="text-indigo-600 font-bold hover:underline">Upload one here</Link>.
+              <p className="text-sm text-muted ">
+                No resumes uploaded yet. <Link to="/upload" className="text-primary font-bold hover:underline">Upload one here</Link>.
               </p>
             ) : (
               <Dropdown
@@ -186,7 +186,7 @@ ${sections.education || ""}
           <Button
             onClick={handleImproveResume}
             disabled={resumes.length === 0 || loading}
-            className="sm:w-auto w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl py-2.5 px-6 font-semibold shadow-md flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
+            className="sm:w-auto w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-md py-2.5 px-6 font-semibold  flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
           >
             {loading ? (
               <>
@@ -215,16 +215,16 @@ ${sections.education || ""}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
-            className="flex flex-col items-center justify-center p-12 text-center bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm space-y-4"
+            className="flex flex-col items-center justify-center p-12 text-center bg-surface  rounded-lg border border-hairline-soft   space-y-4"
           >
             <div className="relative w-16 h-16">
-              <div className="absolute inset-0 rounded-full border-4 border-indigo-100 dark:border-indigo-900" />
+              <div className="absolute inset-0 rounded-full border-4 border-primary " />
               <div className="absolute inset-0 rounded-full border-4 border-t-indigo-600 animate-spin" />
             </div>
-            <p className="text-gray-700 dark:text-gray-200 font-bold text-lg animate-pulse">
+            <p className="text-body-text  font-bold text-lg animate-pulse">
               {PROGRESS_STEPS[progressStep]}
             </p>
-            <p className="text-gray-400 dark:text-gray-500 text-xs">
+            <p className="text-muted-soft  text-xs">
               This process takes up to 45 seconds as we build robust segment content.
             </p>
           </motion.div>
@@ -239,17 +239,17 @@ ${sections.education || ""}
           className="space-y-6"
         >
           {/* Action Toolbar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-900/50 rounded-2xl p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 bg-primary  border border-primary  rounded-lg p-4">
             <div className="space-y-0.5">
-              <p className="text-sm font-bold text-indigo-950 dark:text-indigo-200">AI Improved Version Complete</p>
-              <p className="text-xs text-indigo-600 dark:text-indigo-400">
+              <p className="text-sm font-bold text-primary ">AI Improved Version Complete</p>
+              <p className="text-xs text-primary ">
                 You can review updates, copy blocks, download the text file, or save as a new version.
               </p>
             </div>
             <div className="flex gap-2">
               <button
                 onClick={handleDownload}
-                className="inline-flex items-center gap-1.5 px-4 py-2 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 bg-white dark:bg-gray-800 rounded-xl text-xs font-bold hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                className="inline-flex items-center gap-1.5 px-4 py-2 border border-primary  text-primary  bg-surface  rounded-md text-xs font-bold hover:bg-primary  transition-colors "
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -259,7 +259,7 @@ ${sections.education || ""}
               <button
                 onClick={handleSaveAsVersion}
                 disabled={savingVersion}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold hover:scale-[1.02] transition-all shadow-md disabled:bg-indigo-400"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary hover:bg-primary text-white rounded-md text-xs font-bold hover:scale-[1.02] transition-all  disabled:bg-primary"
               >
                 {savingVersion ? (
                   <span>Saving...</span>
@@ -285,14 +285,14 @@ ${sections.education || ""}
 
               return (
                 <Card key={key} hover={false} className="p-6 overflow-hidden">
-                  <div className="flex items-center justify-between border-b border-gray-150 dark:border-gray-700 pb-3 mb-4">
-                    <h3 className="font-bold text-gray-900 dark:text-white text-base flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-indigo-500" />
+                  <div className="flex items-center justify-between border-b border-gray-150  pb-3 mb-4">
+                    <h3 className="font-bold text-ink  text-base flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-primary" />
                       {title}
                     </h3>
                     <button
                       onClick={() => handleCopy(impr, title)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg transition-colors"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-muted hover:text-primary   bg-canvas  border border-hairline  rounded-lg transition-colors"
                       title="Copy improved text"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -305,23 +305,23 @@ ${sections.education || ""}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Original */}
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-xs font-bold text-gray-450 dark:text-gray-500 uppercase tracking-wider">
-                        <span className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-750 text-gray-600 dark:text-gray-400 text-[10px]">V1</span>
+                      <div className="flex items-center gap-2 text-xs font-bold text-gray-450  uppercase tracking-wider">
+                        <span className="px-1.5 py-0.5 rounded bg-canvas-soft  text-body-text  text-[10px]">V1</span>
                         Current Content
                       </div>
-                      <div className="p-4 bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-750 rounded-xl text-sm text-gray-600 dark:text-gray-400 whitespace-pre-line leading-relaxed font-sans min-h-[100px]">
-                        {orig || <span className="italic text-gray-300 dark:text-gray-600">Section not found in original resume.</span>}
+                      <div className="p-4 bg-canvas  border border-hairline-soft  rounded-md text-sm text-body-text  whitespace-pre-line leading-relaxed font-sans min-h-[100px]">
+                        {orig || <span className="italic text-muted-soft ">Section not found in original resume.</span>}
                       </div>
                     </div>
 
                     {/* Improved */}
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wider">
-                        <span className="px-1.5 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 text-[10px]">AI</span>
+                      <div className="flex items-center gap-2 text-xs font-bold text-primary  uppercase tracking-wider">
+                        <span className="px-1.5 py-0.5 rounded bg-primary  text-primary  text-[10px]">AI</span>
                         Improved Content (ATS-Friendly)
                       </div>
-                      <div className="p-4 bg-indigo-50/20 dark:bg-indigo-950/10 border border-indigo-100/50 dark:border-indigo-900/30 rounded-xl text-sm text-gray-800 dark:text-gray-200 whitespace-pre-line leading-relaxed font-sans min-h-[100px]">
-                        {impr || <span className="italic text-gray-400">Improvement generated.</span>}
+                      <div className="p-4 bg-primary/20  border border-primary/50  rounded-md text-sm text-ink  whitespace-pre-line leading-relaxed font-sans min-h-[100px]">
+                        {impr || <span className="italic text-muted-soft">Improvement generated.</span>}
                       </div>
                     </div>
                   </div>
@@ -334,3 +334,4 @@ ${sections.education || ""}
     </div>
   )
 }
+

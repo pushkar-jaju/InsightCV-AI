@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+﻿import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -18,14 +18,14 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+    <nav className="bg-surface border-b border-hairline  sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/dashboard" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">AI</span>
             </div>
-            <span className="font-semibold text-gray-900 text-lg">InsightCV AI</span>
+            <span className="font-semibold text-ink text-lg">InsightCV AI</span>
           </Link>
 
           {token && (
@@ -38,13 +38,13 @@ export default function Navbar() {
                     to={to}
                     className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                       isActive
-                        ? 'text-indigo-600 bg-indigo-50'
-                        : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50'
+                        ? 'text-primary bg-primary/10'
+                        : 'text-gray-600 hover:text-primary hover:bg-canvas'
                     }`}
                   >
                     {label}
                     {isActive && (
-                      <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-indigo-600 rounded-full" />
+                      <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary/10 rounded-full" />
                     )}
                   </Link>
                 )
@@ -62,3 +62,4 @@ export default function Navbar() {
     </nav>
   )
 }
+

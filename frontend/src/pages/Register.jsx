@@ -6,19 +6,19 @@ import api from '../services/api'
 // ─── SVG Icons ───────────────────────────────────────────────────────────────
 const UserIcon = () => (
   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
   </svg>
 )
 
 const EmailIcon = () => (
   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
   </svg>
 )
 
 const LockIcon = () => (
   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
   </svg>
 )
 
@@ -26,12 +26,12 @@ const EyeIcon = ({ open }) => (
   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     {open ? (
       <>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
       </>
     ) : (
       <>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
       </>
     )}
   </svg>
@@ -44,7 +44,7 @@ const SpinnerIcon = () => (
   </svg>
 )
 
-// ─── Password strength calculator ─────────────────────────────────────────────
+// ─── Password strength ────────────────────────────────────────────────────────
 const getStrength = (pw) => {
   let score = 0
   if (!pw) return { score: 0, label: '', color: '' }
@@ -53,58 +53,46 @@ const getStrength = (pw) => {
   if (/[a-z]/.test(pw)) score++
   if (/[0-9]/.test(pw)) score++
   if (/[^A-Za-z0-9]/.test(pw)) score++
-
-  if (score <= 2) return { score, label: 'Weak', color: 'bg-red-500' }
-  if (score <= 3) return { score, label: 'Fair', color: 'bg-orange-400' }
-  if (score === 4) return { score, label: 'Good', color: 'bg-yellow-400' }
-  return { score, label: 'Strong', color: 'bg-emerald-400' }
+  if (score <= 2) return { score, label: 'Weak',   color: 'var(--color-error)' }
+  if (score <= 3) return { score, label: 'Fair',   color: '#c08532' }
+  if (score === 4) return { score, label: 'Good',  color: '#1f8a65' }
+  return { score, label: 'Strong', color: '#1f8a65' }
 }
 
-// ─── Animation variants ───────────────────────────────────────────────────────
+// ─── Animation variants ────────────────────────────────────────────────────
 const containerVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut', staggerChildren: 0.07 } },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut', staggerChildren: 0.07 } },
 }
-
 const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
 }
-
 const errorVariants = {
-  hidden: { opacity: 0, y: -8, scale: 0.97 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.25 } },
-  exit: { opacity: 0, y: -4, transition: { duration: 0.15 } },
+  hidden: { opacity: 0, y: -6, scale: 0.98 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.2 } },
+  exit: { opacity: 0, transition: { duration: 0.12 } },
 }
 
-// ─── PasswordStrengthBar ──────────────────────────────────────────────────────
+// ─── Password Strength Bar ─────────────────────────────────────────────────
 function PasswordStrengthBar({ password }) {
   const { score, label, color } = getStrength(password)
   if (!password) return null
-
   const bars = [1, 2, 3, 4, 5]
-  const labelColor =
-    score <= 2 ? 'text-red-400' :
-    score === 3 ? 'text-orange-400' :
-    score === 4 ? 'text-yellow-400' : 'text-emerald-400'
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -4 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="mt-2"
-    >
-      <div className="flex items-center gap-1 mb-1">
+    <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="mt-2">
+      <div className="flex items-center gap-1 mb-2">
         {bars.map((b) => (
           <div
             key={b}
-            className={`h-1 flex-1 rounded-full transition-all duration-300 ${b <= score ? color : 'bg-white/10'}`}
+            className="h-1 flex-1 rounded-full transition-all duration-300"
+            style={{ backgroundColor: b <= score ? color : 'var(--color-hairline)' }}
           />
         ))}
-        <span className={`text-xs font-semibold ml-1.5 ${labelColor}`}>{label}</span>
+        <span className="text-xs font-semibold ml-2" style={{ color }}>{label}</span>
       </div>
-      {/* Hint checklist */}
-      <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 mt-1.5">
+      <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
         {[
           ['8+ characters', password.length >= 8],
           ['Uppercase letter', /[A-Z]/.test(password)],
@@ -113,10 +101,10 @@ function PasswordStrengthBar({ password }) {
           ['Special character', /[^A-Za-z0-9]/.test(password)],
         ].map(([hint, met]) => (
           <div key={hint} className="flex items-center gap-1">
-            <span className={`text-xs ${met ? 'text-emerald-400' : 'text-slate-600'}`}>
+            <span className="text-xs" style={{ color: met ? 'var(--color-semantic-success, #1f8a65)' : 'var(--color-hairline-strong)' }}>
               {met ? '✓' : '○'}
             </span>
-            <span className={`text-xs ${met ? 'text-slate-300' : 'text-slate-600'} transition-colors`}>
+            <span className="text-xs transition-colors" style={{ color: met ? 'var(--color-body)' : 'var(--color-muted-soft)' }}>
               {hint}
             </span>
           </div>
@@ -125,6 +113,13 @@ function PasswordStrengthBar({ password }) {
     </motion.div>
   )
 }
+
+// ─── Stats for left panel ─────────────────────────────────────────────────
+const STATS = [
+  { value: '50K+', label: 'Resumes analyzed' },
+  { value: '92%',  label: 'ATS pass rate' },
+  { value: '4.9',  label: 'User rating' },
+]
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function Register() {
@@ -146,8 +141,6 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-
-    // Client-side password validation
     if (form.password !== form.confirmPassword) {
       setError('Passwords do not match')
       triggerShake()
@@ -158,14 +151,9 @@ export default function Register() {
       triggerShake()
       return
     }
-
     setLoading(true)
     try {
-      await api.post('/auth/register', {
-        name: form.name,
-        email: form.email,
-        password: form.password,
-      })
+      await api.post('/auth/register', { name: form.name, email: form.email, password: form.password })
       navigate('/login')
     } catch (err) {
       const msg = err.response?.data?.message || 'Registration failed. Please try again.'
@@ -176,75 +164,102 @@ export default function Register() {
     }
   }
 
+  const confirmBorderColor =
+    !form.confirmPassword ? 'var(--color-hairline-strong)' :
+    form.password !== form.confirmPassword ? 'var(--color-error)' :
+    'var(--color-semantic-success, #1f8a65)'
+
   return (
-    <div className="min-h-screen flex">
-      {/* ── Left branding panel ── */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 items-center justify-center p-12">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-indigo-400/20 rounded-full blur-3xl" />
+    <div className="min-h-screen flex" style={{ backgroundColor: 'var(--color-canvas)' }}>
+      {/* ── Left editorial panel ── */}
+      <div className="hidden lg:flex lg:w-[45%] flex-col justify-between p-16"
+        style={{
+          backgroundColor: 'var(--color-surface-card)',
+          borderRight: '1px solid var(--color-hairline)',
+        }}>
 
-        <motion.div
-          className="relative z-10 text-white max-w-sm"
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
-        >
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center font-bold text-xl shadow-lg">
-              AI
-            </div>
-            <span className="text-2xl font-bold tracking-tight">InsightCV AI</span>
+        {/* Logo */}
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-md flex items-center justify-center"
+            style={{ backgroundColor: 'var(--color-primary)' }}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M2 4h12M2 8h8M2 12h10" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+            </svg>
           </div>
+          <span className="font-semibold" style={{ color: 'var(--color-ink)', fontSize: '16px' }}>
+            InsightCV AI
+          </span>
+        </div>
 
-          <h2 className="text-4xl font-bold leading-tight mb-4">
-            Start your AI-powered<br />career journey
-          </h2>
-          <p className="text-white/70 text-base leading-relaxed mb-10">
+        {/* Headline */}
+        <div>
+          <h1 className="font-normal mb-6"
+            style={{ color: 'var(--color-ink)', fontSize: '36px', lineHeight: '1.2', letterSpacing: '-0.72px' }}>
+            Start your AI-powered<br />
+            <span style={{ color: 'var(--color-primary)' }}>career journey.</span>
+          </h1>
+          <p className="mb-10" style={{ color: 'var(--color-body)', fontSize: '16px', lineHeight: '1.6' }}>
             Join thousands of job seekers who use InsightCV AI to land their dream roles faster.
           </p>
 
-          {/* Stats */}
+          {/* Stats grid */}
           <div className="grid grid-cols-3 gap-4">
-            {[
-              { value: '50K+', label: 'Resumes analyzed' },
-              { value: '92%', label: 'ATS pass rate' },
-              { value: '4.9★', label: 'User rating' },
-            ].map(({ value, label }) => (
-              <div key={label} className="text-center p-3 bg-white/10 rounded-xl backdrop-blur-sm">
-                <div className="text-xl font-bold text-white">{value}</div>
-                <div className="text-xs text-white/60 mt-0.5">{label}</div>
+            {STATS.map(({ value, label }) => (
+              <div key={label} className="text-center p-4 rounded-lg"
+                style={{ backgroundColor: 'var(--color-canvas-soft)', border: '1px solid var(--color-hairline)' }}>
+                <div className="font-semibold" style={{ color: 'var(--color-ink)', fontSize: '22px' }}>{value}</div>
+                <div className="text-xs mt-0.5" style={{ color: 'var(--color-muted)' }}>{label}</div>
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
+
+        <p style={{ color: 'var(--color-muted-soft)', fontSize: '12px' }}>
+          Free to use. No credit card required.
+        </p>
       </div>
 
       {/* ── Right form panel ── */}
-      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 px-6 py-12 overflow-y-auto scrollbar-thin">
+      <div className="flex-1 flex items-center justify-center px-6 py-12 overflow-y-auto scrollbar-thin"
+        style={{ backgroundColor: 'var(--color-canvas)' }}>
         <motion.div
-          className="w-full max-w-md"
+          className="w-full max-w-sm"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           {/* Mobile logo */}
-          <motion.div variants={itemVariants} className="flex lg:hidden items-center gap-2 mb-8 justify-center">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center font-bold text-white text-sm shadow-lg">
-              AI
+          <motion.div variants={itemVariants} className="flex lg:hidden items-center gap-2.5 mb-8 justify-center">
+            <div className="w-7 h-7 rounded-md flex items-center justify-center"
+              style={{ backgroundColor: 'var(--color-primary)' }}>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M2 4h12M2 8h8M2 12h10" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
             </div>
-            <span className="text-white font-bold text-xl tracking-tight">InsightCV AI</span>
+            <span className="font-semibold" style={{ color: 'var(--color-ink)', fontSize: '16px' }}>
+              InsightCV AI
+            </span>
           </motion.div>
 
           {/* Heading */}
           <motion.div variants={itemVariants} className="mb-8">
-            <h1 className="text-3xl font-bold text-white tracking-tight">Create account</h1>
-            <p className="text-slate-400 mt-2 text-sm">Start analyzing resumes with AI — free forever</p>
+            <h2 className="font-normal"
+              style={{ color: 'var(--color-ink)', fontSize: '26px', lineHeight: '1.25', letterSpacing: '-0.325px' }}>
+              Create account
+            </h2>
+            <p className="mt-2" style={{ color: 'var(--color-muted)', fontSize: '14px' }}>
+              Start analyzing resumes with AI — free forever
+            </p>
           </motion.div>
 
-          {/* Glass card */}
+          {/* Form card */}
           <motion.div
             variants={itemVariants}
-            className={`glass-card rounded-2xl p-8 shadow-2xl ${shake ? 'animate-shake' : ''}`}
+            className={`rounded-lg p-7 ${shake ? 'animate-shake' : ''}`}
+            style={{
+              backgroundColor: 'var(--color-surface-card)',
+              border: '1px solid var(--color-hairline)',
+            }}
           >
             {/* Error banner */}
             <AnimatePresence mode="wait">
@@ -255,7 +270,12 @@ export default function Register() {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  className="mb-5 flex items-center gap-2 p-3.5 bg-red-500/15 border border-red-500/30 rounded-xl text-red-300 text-sm"
+                  className="mb-5 flex items-center gap-2 p-3 rounded-md text-sm"
+                  style={{
+                    backgroundColor: 'rgba(207,45,86,0.08)',
+                    border: '1px solid rgba(207,45,86,0.2)',
+                    color: 'var(--color-error)',
+                  }}
                 >
                   <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
@@ -265,13 +285,14 @@ export default function Register() {
               )}
             </AnimatePresence>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-
+            <form onSubmit={handleSubmit} className="space-y-4">
               {/* Full Name */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1.5">Full name</label>
-                <div className="relative group">
-                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+                <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--color-ink)' }}>
+                  Full name
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: 'var(--color-muted)' }}>
                     <UserIcon />
                   </span>
                   <input
@@ -281,17 +302,19 @@ export default function Register() {
                     autoComplete="name"
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200"
-                    placeholder="Rohit Sharma"
+                    className="input-field pl-10"
+                    placeholder="Your full name"
                   />
                 </div>
               </div>
 
               {/* Email */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1.5">Email address</label>
-                <div className="relative group">
-                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+                <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--color-ink)' }}>
+                  Email address
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: 'var(--color-muted)' }}>
                     <EmailIcon />
                   </span>
                   <input
@@ -301,17 +324,19 @@ export default function Register() {
                     autoComplete="email"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200"
-                    placeholder="rohit@example.com"
+                    className="input-field pl-10"
+                    placeholder="you@example.com"
                   />
                 </div>
               </div>
 
-              {/* Password + Strength */}
+              {/* Password */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1.5">Password</label>
-                <div className="relative group">
-                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+                <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--color-ink)' }}>
+                  Password
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: 'var(--color-muted)' }}>
                     <LockIcon />
                   </span>
                   <input
@@ -321,13 +346,14 @@ export default function Register() {
                     autoComplete="new-password"
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="w-full pl-10 pr-11 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200"
+                    className="input-field pl-10 pr-11"
                     placeholder="Min. 8 characters"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 transition-colors"
+                    style={{ color: 'var(--color-muted)' }}
                     tabIndex={-1}
                   >
                     <EyeIcon open={showPassword} />
@@ -338,9 +364,11 @@ export default function Register() {
 
               {/* Confirm Password */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1.5">Confirm password</label>
-                <div className="relative group">
-                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors">
+                <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--color-ink)' }}>
+                  Confirm password
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: 'var(--color-muted)' }}>
                     <LockIcon />
                   </span>
                   <input
@@ -350,71 +378,64 @@ export default function Register() {
                     autoComplete="new-password"
                     value={form.confirmPassword}
                     onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
-                    className={`w-full pl-10 pr-11 py-3 bg-white/5 border rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-1 transition-all duration-200 ${
-                      form.confirmPassword && form.password !== form.confirmPassword
-                        ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500'
-                        : form.confirmPassword && form.password === form.confirmPassword
-                        ? 'border-emerald-500/50 focus:border-emerald-500 focus:ring-emerald-500'
-                        : 'border-white/10 focus:border-indigo-500 focus:ring-indigo-500'
-                    }`}
+                    className="input-field pl-10 pr-11"
+                    style={{ borderColor: confirmBorderColor }}
                     placeholder="Re-enter your password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirm(!showConfirm)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 transition-colors"
+                    style={{ color: 'var(--color-muted)' }}
                     tabIndex={-1}
                   >
                     <EyeIcon open={showConfirm} />
                   </button>
                 </div>
                 {form.confirmPassword && form.password !== form.confirmPassword && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-xs text-red-400 mt-1.5"
-                  >
+                  <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+                    className="text-xs mt-1.5" style={{ color: 'var(--color-error)' }}>
                     Passwords do not match
                   </motion.p>
                 )}
                 {form.confirmPassword && form.password === form.confirmPassword && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-xs text-emerald-400 mt-1.5"
-                  >
+                  <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+                    className="text-xs mt-1.5" style={{ color: '#1f8a65' }}>
                     ✓ Passwords match
                   </motion.p>
                 )}
               </div>
 
               {/* Submit */}
-              <motion.button
+              <button
                 type="submit"
                 disabled={loading}
-                whileHover={{ scale: loading ? 1 : 1.02 }}
-                whileTap={{ scale: loading ? 1 : 0.98 }}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-white text-sm bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-violet-500/25"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-md font-medium text-sm transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                style={{ backgroundColor: 'var(--color-primary)', color: '#ffffff', height: '44px' }}
+                onMouseEnter={e => { if (!loading) e.currentTarget.style.backgroundColor = 'var(--color-primary-active)' }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary)' }}
               >
                 {loading && <SpinnerIcon />}
                 {loading ? 'Creating account…' : 'Create Account'}
-              </motion.button>
+              </button>
             </form>
 
-            <p className="text-center text-sm text-slate-500 mt-6">
+            <p className="text-center text-sm mt-5" style={{ color: 'var(--color-muted)' }}>
               Already have an account?{' '}
-              <Link to="/login" className="text-indigo-400 font-medium hover:text-indigo-300 transition-colors">
+              <Link to="/login" className="font-medium transition-colors"
+                style={{ color: 'var(--color-primary)' }}>
                 Sign in
               </Link>
             </p>
           </motion.div>
 
           {/* Terms */}
-          <motion.p variants={itemVariants} className="text-center text-xs text-slate-600 mt-6">
+          <motion.p variants={itemVariants} className="text-center text-xs mt-5"
+            style={{ color: 'var(--color-muted-soft)' }}>
             By creating an account, you agree to our{' '}
-            <span className="text-slate-500 hover:text-slate-400 cursor-pointer transition-colors">Terms of Service</span>
+            <span className="cursor-pointer" style={{ color: 'var(--color-muted)' }}>Terms of Service</span>
             {' '}and{' '}
-            <span className="text-slate-500 hover:text-slate-400 cursor-pointer transition-colors">Privacy Policy</span>
+            <span className="cursor-pointer" style={{ color: 'var(--color-muted)' }}>Privacy Policy</span>
           </motion.p>
         </motion.div>
       </div>

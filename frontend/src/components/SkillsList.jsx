@@ -1,20 +1,28 @@
 export default function SkillsList({ items = [], color = 'green', emptyMessage = 'None found' }) {
   const colorMap = {
-    green: 'bg-emerald-100 text-emerald-800',
-    red: 'bg-red-100 text-red-800',
-    blue: 'bg-blue-100 text-blue-800',
-    gray: 'bg-gray-100 text-gray-700',
+    green: { bg: 'rgba(31,138,101,0.08)', text: '#1f8a65' },
+    red:   { bg: 'rgba(207,45,86,0.08)', text: '#cf2d56' },
+    blue:  { bg: 'rgba(159,187,224,0.2)', text: '#3a6fa8' },
+    gray:  { bg: 'var(--color-surface-strong)', text: 'var(--color-muted)' },
   }
-  const tagClass = colorMap[color] || colorMap.gray
+  const style = colorMap[color] || colorMap.gray
 
   if (!items.length) {
-    return <p className="text-sm text-gray-400 italic">{emptyMessage}</p>
+    return (
+      <p className="text-sm italic" style={{ color: 'var(--color-muted-soft)' }}>
+        {emptyMessage}
+      </p>
+    )
   }
 
   return (
     <div className="flex flex-wrap gap-2">
       {items.map((item, i) => (
-        <span key={i} className={`px-3 py-1 rounded-full text-xs font-semibold ${tagClass}`}>
+        <span
+          key={i}
+          className="px-3 py-1 rounded-pill text-xs font-semibold"
+          style={{ backgroundColor: style.bg, color: style.text }}
+        >
           {item}
         </span>
       ))}
