@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { ThemeProvider } from './contexts/ThemeContext'
 import Layout from './components/Layout'
+import Loader from './components/Loader'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
@@ -13,6 +15,7 @@ import CompareResumes from './pages/CompareResumes'
 import ResumeRewriter from './pages/ResumeRewriter'
 import InterviewPrep from './pages/InterviewPrep'
 import CareerCoach from './pages/CareerCoach'
+import { getProfile, setAccessToken, setRefreshToken } from './services/api'
 
 // Guard: redirect to /login if JWT not present, wrap in Layout
 function PrivateRoute({ children }) {
@@ -27,6 +30,35 @@ function PublicRoute({ children }) {
 }
 
 export default function App() {
+  const hasToken = Boolean(localStorage.getItem('token'))
+  const [verifying, setVerifying] = useState(hasToken)
+
+  useEffect(() => {
+    if (!hasToken) return
+
+    const verifyToken = async () => {
+      try {
+        await getProfile()
+      } catch (err) {
+        console.error('Session verification failed:', err)
+        setAccessToken(null)
+        setRefreshToken(null)
+      } finally {
+        setVerifying(false)
+      }
+    }
+
+    verifyToken()
+  }, [hasToken])
+
+  if (verifying) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--color-canvas)' }}>
+        <Loader message="Verifying session..." />
+      </div>
+    )
+  }
+
   return (
     <ThemeProvider>
       <BrowserRouter>
