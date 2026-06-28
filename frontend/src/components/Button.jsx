@@ -23,8 +23,8 @@ export default function Button({ variant = 'primary', size = 'md', children, cla
       disabled={disabled}
       className={`
         inline-flex items-center justify-center gap-2 font-medium rounded-md
-        transition-all duration-150
-        disabled:opacity-50 disabled:cursor-not-allowed
+        transition-all duration-150 active:scale-[0.98]
+        disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none
         ${VARIANTS[variant] || VARIANTS.primary}
         ${SIZES[size]}
         ${className}

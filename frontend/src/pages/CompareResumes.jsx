@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import toast from 'react-hot-toast'
@@ -166,13 +166,13 @@ export default function CompareResumes() {
         </div>
 
         {/* Version 2 Card */}
-        <Card hover={false} className="md:col-span-3 p-6 bg-primary/20  border border-primary/50 ">
-          <p className="text-xs font-semibold text-primary  uppercase tracking-widest">Revised Version (V2)</p>
-          <h2 className="text-lg font-bold text-ink  mt-1.5 truncate" title={resume2.name}>{resume2.name}</h2>
-          <p className="text-xs text-muted-soft  mt-0.5">Uploaded {new Date(resume2.uploadDate).toLocaleDateString()}</p>
+        <Card hover={false} className="md:col-span-3 p-6 border-primary">
+          <p className="text-xs font-semibold text-primary uppercase tracking-widest">Revised Version (V2)</p>
+          <h2 className="text-lg font-bold text-ink mt-1.5 truncate" title={resume2.name}>{resume2.name}</h2>
+          <p className="text-xs text-muted-soft mt-0.5">Uploaded {new Date(resume2.uploadDate).toLocaleDateString()}</p>
           <div className="mt-4 flex items-baseline gap-2">
-            <span className="text-4xl font-semibold text-primary ">{resume2.atsScore}</span>
-            <span className="text-sm font-semibold text-primary ">/ 100</span>
+            <span className="text-4xl font-semibold text-ink">{resume2.atsScore}</span>
+            <span className="text-sm font-semibold text-muted">/ 100</span>
           </div>
         </Card>
       </div>
@@ -195,9 +195,9 @@ export default function CompareResumes() {
               <span className="text-xs text-muted-soft ">V1 ATS Score</span>
               <p className="text-xl font-bold text-body-text  mt-0.5">{resume1.atsScore}/100</p>
             </div>
-            <div className="p-3 bg-primary  rounded-md text-center">
-              <span className="text-xs text-primary ">V2 ATS Score</span>
-              <p className="text-xl font-bold text-primary  mt-0.5">{resume2.atsScore}/100</p>
+            <div className="p-3 bg-canvas border border-primary rounded-md text-center">
+              <span className="text-xs text-primary font-semibold">V2 ATS Score</span>
+              <p className="text-xl font-bold text-ink mt-0.5">{resume2.atsScore}/100</p>
             </div>
           </div>
         </Card>
@@ -216,8 +216,8 @@ export default function CompareResumes() {
                   labelStyle={{ fontWeight: 'bold' }}
                 />
                 <Legend iconSize={8} wrapperStyle={{ fontSize: 11 }} />
-                <Bar dataKey="V1" fill="#9ca3af" radius={[4, 4, 0, 0]} name="V1 Score" />
-                <Bar dataKey="V2" fill="#4f46e5" radius={[4, 4, 0, 0]} name="V2 Score" />
+                <Bar dataKey="V1" fill="#a09c92" radius={[4, 4, 0, 0]} name="V1 Score" />
+                <Bar dataKey="V2" fill="var(--color-primary)" radius={[4, 4, 0, 0]} name="V2 Score" />
               </BarChart>
             </ResponsiveContainer>
           </div>

@@ -100,7 +100,7 @@ export default function Dashboard() {
 
   const renderLatestBreakdownCard = () => (
     <div
-      className="rounded-lg p-6 flex flex-col justify-between flex-1"
+      className="rounded-lg p-6 flex flex-col justify-between flex-1 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary"
       style={{ backgroundColor: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)' }}
     >
       <div>
@@ -147,7 +147,7 @@ export default function Dashboard() {
         <div className="pt-4 mt-auto">
           <Link
             to={`/upload?resumeId=${latestResume._id}`}
-            className="w-full text-center py-2 px-3 text-xs font-medium rounded-md transition-colors block"
+            className="w-full text-center py-2 px-3 text-xs font-medium rounded-md transition-all duration-150 active:scale-[0.98] block"
             style={{
               backgroundColor: 'var(--color-canvas-soft)',
               color: 'var(--color-ink)',
@@ -192,7 +192,7 @@ export default function Dashboard() {
         </p>
         <div className="flex flex-wrap gap-3">
           <Link to="/upload"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md font-medium text-sm transition-colors duration-150"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md font-medium text-sm transition-all duration-150 active:scale-[0.98]"
             style={{ backgroundColor: 'var(--color-primary)', color: '#ffffff' }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary-active)' }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--color-primary)' }}
@@ -200,7 +200,7 @@ export default function Dashboard() {
             Upload Resume
           </Link>
           <Link to="/job-match"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md font-medium text-sm transition-colors duration-150"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md font-medium text-sm transition-all duration-150 active:scale-[0.98]"
             style={{
               backgroundColor: 'var(--color-canvas-soft)',
               color: 'var(--color-ink)',
@@ -354,7 +354,7 @@ export default function Dashboard() {
               return (
                 <div
                   key={r._id}
-                  className="rounded-lg px-5 py-4 flex items-center justify-between transition-colors duration-150"
+                  className="rounded-lg px-5 py-4 flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 hover:border-primary"
                   style={{ backgroundColor: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)' }}
                 >
                   <div>

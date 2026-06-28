@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { getProfile } from '../services/api'
 
 // ─── Custom Icons ─────────────────────────────────────────────────────────────
 const MenuIcon = () => (
@@ -66,6 +67,30 @@ export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeFAQ, setActiveFAQ] = useState(null)
+  const [profile, setProfile] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      setIsLoggedIn(true)
+      getProfile()
+        .then((res) => {
+          setProfile(res.data.user)
+        })
+        .catch((err) => {
+          console.error('Error fetching profile on landing page:', err)
+          localStorage.removeItem('token')
+          setIsLoggedIn(false)
+        })
+    }
+  }, [])
+
+  const initials = profile?.name
+    ? profile.name.split(' ').map((n) => n[0]).slice(0, 2).join('').toUpperCase()
+    : '?'
+
+  const profileName = profile?.name || 'User'
 
   // Header scroll detection
   useEffect(() => {
@@ -293,12 +318,27 @@ export default function Landing() {
 
           {/* Desktop CTA buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <Link to="/login" className="btn btn-secondary text-sm">
-              Login
-            </Link>
-            <Link to="/register" className="btn btn-primary text-sm">
-              Sign Up
-            </Link>
+            {isLoggedIn ? (
+              <div className="flex items-center gap-3">
+                <Link to="/dashboard" className="text-nav text-body-text hover:text-ink transition-colors font-medium">
+                  Dashboard
+                </Link>
+                <Link to="/profile" className="w-9 h-9 rounded-full flex items-center justify-center bg-ink border border-hairline relative group overflow-hidden transition-all duration-150 hover:border-primary" title="View Profile">
+                  <span className="font-semibold text-xs text-canvas">
+                    {initials}
+                  </span>
+                </Link>
+              </div>
+            ) : (
+              <>
+                <Link to="/login" className="btn btn-secondary text-sm">
+                  Login
+                </Link>
+                <Link to="/register" className="btn btn-primary text-sm">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile hamburger button */}
@@ -369,20 +409,41 @@ export default function Landing() {
                 </button>
 
                 <div className="border-t border-hairline pt-6 flex flex-col gap-4 mt-auto">
-                  <Link
-                    to="/login"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="btn btn-secondary w-full text-center"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="btn btn-primary w-full text-center"
-                  >
-                    Sign Up
-                  </Link>
+                  {isLoggedIn ? (
+                    <>
+                      <Link
+                        to="/dashboard"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="btn btn-primary w-full text-center"
+                      >
+                        Go to Dashboard
+                      </Link>
+                      <Link
+                        to="/profile"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="btn btn-secondary w-full text-center"
+                      >
+                        View Profile ({profileName})
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/login"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="btn btn-secondary w-full text-center"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        to="/register"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="btn btn-primary w-full text-center"
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </motion.aside>
@@ -432,15 +493,23 @@ export default function Landing() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-8 flex flex-col sm:flex-row gap-4 items-center"
             >
-              <Link to="/register" className="btn btn-primary h-11 px-6 rounded-md text-base w-full sm:w-auto">
-                Get Started
-              </Link>
-              <Link to="/login" className="btn btn-secondary h-11 px-6 rounded-md text-base w-full sm:w-auto">
-                Sign In
-              </Link>
-              <Link to="/register" className="text-nav text-body-text hover:text-ink transition-colors font-medium sm:ml-2">
-                Create Free Account →
-              </Link>
+              {isLoggedIn ? (
+                <Link to="/dashboard" className="btn btn-primary h-11 px-6 rounded-md text-base w-full sm:w-auto">
+                  Go to Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link to="/register" className="btn btn-primary h-11 px-6 rounded-md text-base w-full sm:w-auto">
+                    Get Started
+                  </Link>
+                  <Link to="/login" className="btn btn-secondary h-11 px-6 rounded-md text-base w-full sm:w-auto">
+                    Sign In
+                  </Link>
+                  <Link to="/register" className="text-nav text-body-text hover:text-ink transition-colors font-medium sm:ml-2">
+                    Create Free Account →
+                  </Link>
+                </>
+              )}
             </motion.div>
 
             {/* Interactive Mockup Visual */}

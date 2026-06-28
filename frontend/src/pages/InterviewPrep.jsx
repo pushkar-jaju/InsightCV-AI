@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -151,18 +151,20 @@ export default function InterviewPrep() {
         </div>
         {prepData && !loading && (
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={() => handleGenerate(true)}
-              className="px-4 py-2 border border-gray-255  text-body-text  bg-surface  rounded-md text-xs font-bold hover:bg-canvas  transition-colors"
             >
               🔄 Regenerate
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
               onClick={handleDownload}
-              className="px-4 py-2 bg-primary hover:bg-primary text-white rounded-md text-xs font-bold hover:scale-[1.02] transition-all "
             >
               📥 Download Prep Guide (.md)
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -213,7 +215,7 @@ export default function InterviewPrep() {
           <Button
             onClick={() => handleGenerate(false)}
             disabled={resumes.length === 0 || loading}
-            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-md py-2.5 font-semibold  flex items-center justify-center gap-2"
+            className="w-full"
           >
             {loading ? (
               <>
@@ -277,7 +279,7 @@ export default function InterviewPrep() {
                       className="w-full flex items-center justify-between text-left gap-4"
                     >
                       <div className="space-y-1">
-                        <span className="inline-flex items-center text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded bg-primary  text-primary ">
+                        <span className="inline-flex items-center text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded bg-primary text-white">
                           Question {idx + 1}
                         </span>
                         <p className="font-semibold text-ink  text-sm sm:text-base leading-tight">
@@ -336,7 +338,7 @@ export default function InterviewPrep() {
       {/* No questions placeholder */}
       {!prepData && !loading && (
         <Card className="p-12 text-center">
-          <div className="w-14 h-14 bg-primary  rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>

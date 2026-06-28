@@ -31,7 +31,7 @@ const renderBreakdownCategory = (title, cat, max) => {
   return (
     <div
       key={title}
-      className="rounded-lg p-4 space-y-3"
+      className="rounded-lg p-4 space-y-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-surface-card"
       style={{ backgroundColor: 'var(--color-canvas-soft)', border: '1px solid var(--color-hairline)' }}
     >
       <div className="flex justify-between items-center">

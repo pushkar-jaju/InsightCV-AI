@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -186,7 +186,7 @@ ${sections.education || ""}
           <Button
             onClick={handleImproveResume}
             disabled={resumes.length === 0 || loading}
-            className="sm:w-auto w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-md py-2.5 px-6 font-semibold  flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
+            className="sm:w-auto w-full flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -239,27 +239,34 @@ ${sections.education || ""}
           className="space-y-6"
         >
           {/* Action Toolbar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 bg-primary  border border-primary  rounded-lg p-4">
-            <div className="space-y-0.5">
-              <p className="text-sm font-bold text-primary ">AI Improved Version Complete</p>
-              <p className="text-xs text-primary ">
-                You can review updates, copy blocks, download the text file, or save as a new version.
+          <div
+            className="flex flex-wrap items-center justify-between gap-3 rounded-lg p-4"
+            style={{ backgroundColor: 'var(--color-canvas-soft)', border: '1px solid var(--color-hairline-strong)' }}
+          >
+            <div className="space-y-0.5 text-left">
+              <p className="text-sm font-semibold text-ink">AI Improved Version Complete</p>
+              <p className="text-xs text-body">
+                Review updates, copy blocks, download the text file, or save as a new version.
               </p>
             </div>
             <div className="flex gap-2">
-              <button
+              <Button
+                variant="secondary"
+                size="sm"
                 onClick={handleDownload}
-                className="inline-flex items-center gap-1.5 px-4 py-2 border border-primary  text-primary  bg-surface  rounded-md text-xs font-bold hover:bg-primary  transition-colors "
+                className="flex items-center gap-1.5"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
                 Download (.txt)
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
                 onClick={handleSaveAsVersion}
                 disabled={savingVersion}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary hover:bg-primary text-white rounded-md text-xs font-bold hover:scale-[1.02] transition-all  disabled:bg-primary"
+                className="flex items-center gap-1.5"
               >
                 {savingVersion ? (
                   <span>Saving...</span>
@@ -271,7 +278,7 @@ ${sections.education || ""}
                     Save as New Version
                   </>
                 )}
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -315,12 +322,12 @@ ${sections.education || ""}
                     </div>
 
                     {/* Improved */}
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-xs font-bold text-primary  uppercase tracking-wider">
-                        <span className="px-1.5 py-0.5 rounded bg-primary  text-primary  text-[10px]">AI</span>
+                    <div className="space-y-2 text-left">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-wider">
+                        <span className="px-1.5 py-0.5 rounded bg-primary text-white text-[10px]">AI</span>
                         Improved Content (ATS-Friendly)
                       </div>
-                      <div className="p-4 bg-primary/20  border border-primary/50  rounded-md text-sm text-ink  whitespace-pre-line leading-relaxed font-sans min-h-[100px]">
+                      <div className="p-4 border border-hairline bg-canvas-soft border-l-2 border-l-primary rounded-r-md text-sm text-ink whitespace-pre-line leading-relaxed font-sans min-h-[100px]">
                         {impr || <span className="italic text-muted-soft">Improvement generated.</span>}
                       </div>
                     </div>

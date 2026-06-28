@@ -132,23 +132,17 @@ export default function Profile() {
             </div>
           </Card>
 
-          <button
+          <Button
+            variant="danger"
             onClick={() => setShowLogoutModal(true)}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-md font-medium text-sm transition-colors duration-150"
-            style={{
-              color: 'var(--color-error)',
-              border: '1px solid var(--color-error)',
-              backgroundColor: 'transparent',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(207,45,86,0.06)' }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent' }}
+            className="w-full text-center"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
             Sign Out
-          </button>
+          </Button>
         </div>
       )}
       <LogoutModal

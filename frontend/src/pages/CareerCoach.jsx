@@ -662,11 +662,14 @@ export default function CareerCoach() {
 
                             <div className={`flex flex-col max-w-[80%] md:max-w-[75%] ${isUser ? 'items-end' : 'items-start'}`}>
                               <div
-                                className={`rounded-lg px-4 py-2.5 text-[15px]  leading-relaxed transition-all
+                                className={`rounded-lg px-4 py-2.5 text-[15px] leading-relaxed transition-all
                                   ${isUser
-                                    ? 'bg-primary  text-white -500/10'
-                                    : 'bg-canvas/90  text-ink  border border-hairline  '
+                                    ? 'text-white'
+                                    : 'bg-canvas/90 text-ink border border-hairline'
                                   }`}
+                                style={{
+                                  backgroundColor: isUser ? 'var(--color-ink)' : 'var(--color-canvas/90)',
+                                }}
                               >
                                 {isUser ? (
                                   <p className="whitespace-pre-wrap">{m.text}</p>
@@ -729,7 +732,7 @@ export default function CareerCoach() {
                         <button
                           type="submit"
                           disabled={!inputText.trim() || sendingMsg}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary hover:bg-primary disabled:bg-surface-strong dark:disabled:bg-gray-800 text-white disabled:text-muted-soft rounded-lg transition-all "
+                          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary hover:bg-primary-active disabled:bg-surface-strong dark:disabled:bg-gray-800 text-white disabled:text-muted-soft rounded-lg transition-all active:scale-[0.95]"
                           title="Send message"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

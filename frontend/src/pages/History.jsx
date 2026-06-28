@@ -6,6 +6,31 @@ import Card from '../components/Card'
 import api from '../services/api'
 import Dropdown from '../components/Dropdown'
 
+const TableSkeleton = () => (
+  <div className="w-full card border border-hairline overflow-hidden">
+    <div className="h-12 bg-canvas-soft border-b border-hairline flex items-center px-6 gap-4">
+      <div className="h-3.5 bg-surface-strong rounded w-8 animate-pulse" />
+      <div className="h-3.5 bg-surface-strong rounded w-48 animate-pulse" />
+      <div className="h-3.5 bg-surface-strong rounded w-24 animate-pulse" />
+      <div className="h-3.5 bg-surface-strong rounded w-16 animate-pulse" />
+      <div className="h-3.5 bg-surface-strong rounded w-16 animate-pulse" />
+      <div className="h-3.5 bg-surface-strong rounded w-32 ml-auto animate-pulse" />
+    </div>
+    <div className="divide-y divide-hairline">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <div key={i} className="h-16 flex items-center px-6 gap-4">
+          <div className="h-3 bg-surface-strong rounded w-8 animate-pulse" />
+          <div className="h-3 bg-surface-strong rounded w-56 animate-pulse" />
+          <div className="h-3 bg-surface-strong rounded w-24 animate-pulse" />
+          <div className="h-5 bg-surface-strong rounded-full w-16 animate-pulse" />
+          <div className="h-5 bg-surface-strong rounded-full w-16 animate-pulse" />
+          <div className="h-8 bg-surface-strong rounded w-24 ml-auto animate-pulse" />
+        </div>
+      ))}
+    </div>
+  </div>
+)
+
 export default function History() {
   const navigate = useNavigate()
   const [history, setHistory] = useState([])
@@ -219,7 +244,7 @@ export default function History() {
 
       {/* Main Content */}
       {loading ? (
-        <Loader message="Loading history..." />
+        <TableSkeleton />
       ) : error ? (
         <div className="p-4 rounded-md text-sm"
           style={{

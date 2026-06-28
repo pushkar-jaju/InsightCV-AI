@@ -5,7 +5,9 @@
 export default function Card({ children, className = '', hover = false }) {
   return (
     <div
-      className={`rounded-lg ${hover ? 'transition-colors duration-150' : ''} ${className}`}
+      className={`rounded-lg transition-all duration-200 ${
+        hover ? 'hover:-translate-y-0.5 hover:border-primary' : ''
+      } ${className}`}
       style={{
         backgroundColor: 'var(--color-surface-card)',
         border: '1px solid var(--color-hairline)',

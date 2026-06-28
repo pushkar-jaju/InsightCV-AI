@@ -21,7 +21,7 @@ export default function Header({ onMenuClick, pathname }) {
         borderBottom: '1px solid var(--color-hairline)',
       }}
     >
-      {/* Left: hamburger + title */}
+      {/* Left: hamburger + title with breadcrumbs */}
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}
@@ -35,9 +35,18 @@ export default function Header({ onMenuClick, pathname }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <h1 className="text-title-sm font-semibold" style={{ color: 'var(--color-ink)' }}>
-          {title}
-        </h1>
+        <div className="flex flex-col text-left">
+          <div className="flex items-center gap-1 text-[10px] font-semibold tracking-wider text-muted uppercase" style={{ letterSpacing: '0.08em' }}>
+            <span>Home</span>
+            <span>/</span>
+            <span style={{ color: 'var(--color-muted-soft)' }}>
+              {PAGE_TITLES[pathname] || 'InsightCV AI'}
+            </span>
+          </div>
+          <h1 className="text-sm font-semibold" style={{ color: 'var(--color-ink)', marginTop: '2px' }}>
+            {title}
+          </h1>
+        </div>
       </div>
 
       {/* Right: wordmark */}

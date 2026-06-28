@@ -2,8 +2,8 @@
 const BADGE_STYLE = {
   indigo: { badge: 'var(--color-surface-strong)', icon: 'var(--color-ink)' },
   emerald: { badge: 'rgba(31,138,101,0.1)', icon: 'var(--color-success)' },
-  violet: { badge: 'rgba(192,168,221,0.25)', icon: '#7c5cbf' },
-  amber: { badge: 'rgba(192,133,50,0.12)', icon: '#b87a20' },
+  violet: { badge: 'var(--color-surface-strong)', icon: 'var(--color-ink)' },
+  amber: { badge: 'rgba(192,133,50,0.12)', icon: '#c08532' },
 }
 
 export default function AnalyticsCard({ title, value, icon, color = 'indigo', suffix = '' }) {
@@ -12,7 +12,7 @@ export default function AnalyticsCard({ title, value, icon, color = 'indigo', su
 
   return (
     <div
-      className="rounded-lg p-6 flex items-center gap-5 transition-colors duration-150"
+      className="rounded-lg p-6 flex items-center gap-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary"
       style={{
         backgroundColor: 'var(--color-surface-card)',
         border: '1px solid var(--color-hairline)',
