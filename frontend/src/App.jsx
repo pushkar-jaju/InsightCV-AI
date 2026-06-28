@@ -15,6 +15,7 @@ import CompareResumes from './pages/CompareResumes'
 import ResumeRewriter from './pages/ResumeRewriter'
 import InterviewPrep from './pages/InterviewPrep'
 import CareerCoach from './pages/CareerCoach'
+import Landing from './pages/Landing'
 import { getProfile, setAccessToken, setRefreshToken } from './services/api'
 
 // Guard: redirect to /login if JWT not present, wrap in Layout
@@ -87,7 +88,7 @@ export default function App() {
           <Route path="/career-coach"   element={<PrivateRoute><CareerCoach /></PrivateRoute>} />
 
           {/* Redirects */}
-          <Route path="/"  element={<Navigate to="/dashboard" replace />} />
+          <Route path="/"  element={<Landing />} />
           <Route path="*"  element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </BrowserRouter>
