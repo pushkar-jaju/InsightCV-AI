@@ -240,26 +240,7 @@ export default function Landing() {
     }
   ]
 
-  const testimonials = [
-    {
-      name: 'Sarah Jenkins',
-      role: 'Product Manager at Linear',
-      avatarText: 'SJ',
-      feedback: 'InsightCV AI completely changed how I approach my applications. By matching my bullet points directly to key metrics, my interview callback rate went from 10% to over 40% in just two weeks.'
-    },
-    {
-      name: 'David Chen',
-      role: 'Senior Software Engineer',
-      avatarText: 'DC',
-      feedback: 'The ATS score analyzer is incredibly thorough. It highlighted formatting errors and nesting layout bugs that standard parsers stumble on. The rewriter tool saved me hours of editing.'
-    },
-    {
-      name: 'Elena Rodriguez',
-      role: 'UX Designer at Vercel',
-      avatarText: 'ER',
-      feedback: 'The Career Coach felt like talking to a real mentor who knows exactly what design recruiters look for. It pointed out critical gaps in my skill presentation that standard tools missed.'
-    }
-  ]
+
 
   const faqs = [
     {
@@ -706,53 +687,8 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* ─── Testimonials Section ───────────────────────────────────────────── */}
-        <section className="px-4 sm:px-6 lg:px-8 py-20 border-b border-hairline" style={{ backgroundColor: 'var(--color-canvas)' }}>
-          <div className="max-w-6xl mx-auto">
-            {/* Header */}
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-display-lg text-ink font-normal tracking-tight">
-                Trusted by job seekers worldwide.
-              </h2>
-              <p className="mt-4 text-body-text text-base">
-                See how job candidates are securing technical, design, and product interviews.
-              </p>
-            </div>
-
-            {/* Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {testimonials.map((t, idx) => (
-                <div
-                  key={idx}
-                  className="card border border-hairline p-6 flex flex-col justify-between text-left bg-surface"
-                >
-                  <p className="text-body-sm text-body-text italic leading-relaxed">
-                    "{t.feedback}"
-                  </p>
-                  <div className="flex items-center gap-3.5 mt-6 pt-4 border-t border-hairline">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-semibold text-sm">
-                      {t.avatarText}
-                    </div>
-                    <div>
-                      <h4 className="text-title-sm font-semibold text-ink leading-none">{t.name}</h4>
-                      <p className="text-[12px] text-muted font-medium mt-1">{t.role}</p>
-                    </div>
-                    <div className="ml-auto flex gap-0.5">
-                      <StarsIcon />
-                      <StarsIcon />
-                      <StarsIcon />
-                      <StarsIcon />
-                      <StarsIcon />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ─── FAQ Accordion Section ──────────────────────────────────────────── */}
-        <section id="faq" className="px-4 sm:px-6 lg:px-8 py-20 border-b border-hairline bg-surface">
+        <section id="faq" className="px-4 sm:px-6 lg:px-8 py-20 border-b border-hairline" style={{ backgroundColor: 'var(--color-canvas)' }}>
           <div className="max-w-4xl mx-auto">
             {/* Header */}
             <div className="text-center mb-16">
@@ -780,7 +716,7 @@ export default function Landing() {
         </section>
 
         {/* ─── Final CTA Section ──────────────────────────────────────────────── */}
-        <section className="px-4 sm:px-6 lg:px-8 py-24 text-center border-b border-hairline bg-canvas">
+        <section className="px-4 sm:px-6 lg:px-8 py-24 text-center border-b border-hairline bg-surface">
           <div className="max-w-4xl mx-auto flex flex-col items-center">
             <h2 className="text-display-lg text-ink font-normal tracking-tight max-w-2xl leading-tight">
               Ready to accelerate your career?

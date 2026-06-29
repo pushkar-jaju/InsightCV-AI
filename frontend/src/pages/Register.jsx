@@ -114,11 +114,11 @@ function PasswordStrengthBar({ password }) {
   )
 }
 
-// ─── Stats for left panel ─────────────────────────────────────────────────
-const STATS = [
-  { value: '50K+', label: 'Resumes analyzed' },
-  { value: '92%',  label: 'ATS pass rate' },
-  { value: '4.9',  label: 'User rating' },
+// ─── Feature list for left panel ──────────────────────────────────────────
+const FEATURES = [
+  { label: 'ATS Score Analysis', desc: 'Get a detailed ATS compatibility score for any resume.' },
+  { label: 'Job Match Detection', desc: 'Compare your resume against any job description.' },
+  { label: 'AI Career Coach',     desc: 'Get personalised advice from an AI career advisor.' },
 ]
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -202,13 +202,20 @@ export default function Register() {
             Join thousands of job seekers who use InsightCV AI to land their dream roles faster.
           </p>
 
-          {/* Stats grid */}
-          <div className="grid grid-cols-3 gap-4">
-            {STATS.map(({ value, label }) => (
-              <div key={label} className="text-center p-4 rounded-lg"
-                style={{ backgroundColor: 'var(--color-canvas-soft)', border: '1px solid var(--color-hairline)' }}>
-                <div className="font-semibold" style={{ color: 'var(--color-ink)', fontSize: '22px' }}>{value}</div>
-                <div className="text-xs mt-0.5" style={{ color: 'var(--color-muted)' }}>{label}</div>
+          {/* Feature list */}
+          <div className="space-y-5">
+            {FEATURES.map((f) => (
+              <div key={f.label} className="flex gap-3 text-left">
+                <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                  style={{ backgroundColor: 'var(--color-primary)' }}>
+                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-medium" style={{ color: 'var(--color-ink)', fontSize: '14px' }}>{f.label}</p>
+                  <p className="mt-0.5" style={{ color: 'var(--color-muted)', fontSize: '13px' }}>{f.desc}</p>
+                </div>
               </div>
             ))}
           </div>
