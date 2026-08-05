@@ -187,21 +187,33 @@ export default function JobMatch() {
 
           {/* ── Saved match banner ── */}
           {hasSavedMatch && (
-            <div className="flex items-center justify-between p-4 rounded-lg"
-              style={{ backgroundColor: 'rgba(31,138,101,0.08)', border: '1px solid rgba(31,138,101,0.2)' }}>
-              <div className="flex items-center gap-2.5">
+            <Card className="flex items-center justify-between p-4 animate-fade-in">
+              <div className="flex items-center gap-3">
                 <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: 'rgba(31,138,101,0.15)' }}>
-                  <svg className="w-3 h-3" fill="#1f8a65" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  style={{ backgroundColor: 'rgba(31, 138, 101, 0.1)' }}>
+                  <svg className="w-3 h-3" fill="none" stroke="var(--color-success)" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                   </svg>
                 </div>
-                <p className="text-sm font-medium" style={{ color: '#1f8a65' }}>Saved match loaded instantly</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-medium" style={{ color: 'var(--color-ink)' }}>
+                    Saved match loaded instantly
+                  </span>
+                  <span className="hidden sm:inline text-xs" style={{ color: 'var(--color-muted)' }}>
+                    &bull; Showcasing previous results
+                  </span>
+                </div>
               </div>
-              <button onClick={handleNewAnalysis} className="text-xs font-medium underline transition-colors" style={{ color: '#1f8a65' }}>
-                New analysis
+              <button
+                onClick={handleNewAnalysis}
+                className="text-xs font-semibold uppercase tracking-wider transition-colors"
+                style={{ color: 'var(--color-muted)' }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'var(--color-primary)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'var(--color-muted)' }}
+              >
+                New analysis &rarr;
               </button>
-            </div>
+            </Card>
           )}
 
           <Card className="p-6 space-y-5">
